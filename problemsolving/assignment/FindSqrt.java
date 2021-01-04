@@ -1,4 +1,4 @@
-package problemsolving;
+package problemsolving.assignment;
 
 public class FindSqrt
 {
