@@ -1,4 +1,4 @@
-package maths;
+package maths.assignment;
 
 public class ExcelColumnNumber
 {

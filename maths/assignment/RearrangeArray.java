@@ -1,4 +1,4 @@
-package maths;
+package maths.assignment;
 
 import java.util.*;
 
@@ -12,11 +12,11 @@ public class RearrangeArray
         for (int i=0;i<n;i++) {
             // to retrieve the old number
             int old = A.get(i)/n;
-            int num = A.get(old);
-            int old_num = num/n;
+            int old_num = A.get(old)/n;
             A.set(i, A.get(i) + old_num);
         }
         for (int i=0;i<n;i++) {
+            // to retrieve the new number
             A.set(i,A.get(i)%n);
         }
         return A;
