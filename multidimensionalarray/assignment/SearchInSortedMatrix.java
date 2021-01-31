@@ -44,6 +44,10 @@ package multidimensionalarray.assignment;
  */
 public class SearchInSortedMatrix
 {
+
+    /**
+     * TC = O(row + col)
+     */
     private static int solve(int[][] A, int B) {
         int row = A.length, col = A[0].length;
         int i=0, j = col-1;

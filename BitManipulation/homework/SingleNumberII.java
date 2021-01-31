@@ -79,6 +79,31 @@ public class SingleNumberII
         return ans;
     }
 
+    /**
+     * TC = O(nlogMax) where Max = max element in the array
+     */
+    public int singleNumber(final int[] A) {
+        int max = Integer.MIN_VALUE;
+        for (int i=0;i<A.length;i++) {
+            max = Math.max(max,A[i]);
+        }
+        int powerOf2 = 1, j = 0;
+        int ans = 0;
+        while(powerOf2 <= max) {
+            // count of set bits at jth bit position
+            int count = 0;
+            for (int i=0;i<A.length;i++) {
+                if (((A[i] >> j) & 1) == 1) {
+                    count++;
+                }
+            }
+            ans += (1 << j) * (count % 3);
+            j++;
+            powerOf2 <<= 1;
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
         int[] A = {2,4,2,2,3,3,3,4,4,6,7,7,7,5,5,5};

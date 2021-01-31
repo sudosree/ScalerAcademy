@@ -55,7 +55,7 @@ public class NobleInteger
 
     public static void main(String[] args)
     {
-        int[] A = {3,3,4,4,4,7,10};
+        int[] A = {-4, -2, 0, -1, -6};
         System.out.println(solve(A));
     }
 }

@@ -44,6 +44,9 @@ public class CountSubArrayWithSumK
         return count;
     }
 
+    /**
+     * TC = O(n), SC = O(n)
+     */
     private static int solve2(int[] A, int k) {
         int count = 0, prefixSum = 0;
         // prefix sum with its frequency

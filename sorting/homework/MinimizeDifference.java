@@ -183,10 +183,44 @@ public class MinimizeDifference
         return diff;
     }
 
+    /**
+     * Time Complexity = O(n) + O(max(A))
+     * Space Complexity - O(n)
+     */
+    private static int solve2(int[] A, int B) {
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int i=0;i<A.length;i++) {
+            max = Math.max(max, A[i]);
+            min = Math.min(min, A[i]);
+        }
+        int[] freq = new int[max+1];
+        for (int i=0;i<A.length;i++) {
+            freq[A[i]]++;
+        }
+        while (B > 0 && min < max) {
+            if (freq[min] < freq[max]) {
+                if (B < freq[min]) {
+                    break;
+                }
+                freq[min + 1] += freq[min];
+                B -= freq[min];
+                min++;
+            } else {
+                if (B < freq[max]) {
+                    break;
+                }
+                freq[max - 1] += freq[max];
+                B -= freq[max];
+                max--;
+            }
+        }
+        return max - min;
+    }
+
     public static void main(String[] args)
     {
-        int[] A = {2,2,4,6,8,9,9,9,9};
-        int B = 20;
+        int[] A = {4, 6, 3, 1, 4};
+        int B = 5;
         System.out.println(solve(A,B));
     }
 }

@@ -56,6 +56,32 @@ public class MaxConsecutiveOnes
         return maxLen;
     }
 
+    private static int solve3(int[] nums) {
+        int max_len = 0;
+        for (int i=0,j=0; j<nums.length; j++) {
+            if (nums[j] == 0) {
+                i = j+1;
+                continue;
+            }
+            int curr_len = j-i+1;
+            max_len = Math.max(max_len, curr_len);
+        }
+        return max_len;
+    }
+
+    private static int solve4(int[] nums) {
+        int max_len = 0, count = 0;
+        for (int i=0;i<nums.length;i++) {
+            if (nums[i] == 1) {
+                count++;
+                max_len = Math.max(max_len, count);
+            } else {
+                count = 0;
+            }
+        }
+        return max_len;
+    }
+
     public static void main(String[] args)
     {
         int[] nums = {1,1,0,1,1,1,0,1};

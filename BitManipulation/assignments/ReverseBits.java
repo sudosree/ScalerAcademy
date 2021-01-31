@@ -69,9 +69,48 @@ public class ReverseBits
         return ans;
     }
 
+    private static long solve1(int A) {
+        long ans = 0;
+        for (int i=0;i<32;i++) {
+            if (((A >> i) & 1) == 1) {
+                ans |= 1L << (31 - i);
+            }
+        }
+        return ans;
+    }
+
+    private static long solve2(int A) {
+        long ans = 0;
+        int i = 0;
+        while (A > 0) {
+            if ((A & 1) == 1) {
+                ans |= 1L << (31 - i);
+            }
+            A >>= 1;
+            i++;
+        }
+        return ans;
+    }
+
+    private static long solve3(long a) {
+        long ans = a;
+        for (int i=0;i<16;i++) {
+            // check if ith and (32 - i - 1)th bit are different or not
+            // if different then swap the bits
+            long ith_bit = (a >> i) & 1;
+            long jth_bit = (a >> (31 - i)) & 1;
+            // if both the bits are different
+            if ((ith_bit ^ jth_bit) == 1) {
+                // then swap the bits
+                ans ^= (1L << i) | (1L << (31 - i));
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
         int A = 3;
-        System.out.println(solve(A));
+        System.out.println(solve3(A));
     }
 }

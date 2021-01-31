@@ -1,7 +1,6 @@
 package hashmap.practice;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TwoSumEasy
 {
@@ -16,5 +15,12 @@ public class TwoSumEasy
 
         }
         return new int[]{};
+    }
+
+    public static void main(String[] args)
+    {
+        int[] A = {1,3,3,1};
+        int B = 4;
+        System.out.println(Arrays.toString(twoSum(A, B)));
     }
 }

@@ -59,50 +59,37 @@ import java.util.List;
  */
 public class AddOneToNumber
 {
-   private static int[] solve(int[] A) {
-       int num= 1;
-       List<Integer> list = new ArrayList<>();
-       for (int i=A.length-1;i>=0;i--) {
-           if (A[i] + num == 10) {
-               list.add(0);
-               num = 1;
-           } else {
-               list.add(A[i] + num);
-               num = 0;
-           }
-       }
-       if (num == 1) {
-           list.add(num);
-       }
-       int len = list.size();
-       for (int i=len-1;i>=0;i--) {
-           if (list.get(i) == 0) {
-               len = i;
-           } else {
-               break;
-           }
-       }
-       if (len == 1) {
-           return new int[]{list.get(0)};
-       }
-       int[] arr = new int[len];
-       int left = 0, right = len-1;
-       while (left < right) {
-           arr[left] = list.get(right);
-           arr[right] = list.get(left);
-           left++;
-           right--;
-       }
-       if (len%2 == 1) {
-           arr[right] = list.get(right);
-       }
-       return arr;
-   }
+    public static int[] plusOne(int[] A) {
+        int n = A.length, carry = 1;
+        List<Integer> list = new ArrayList<>();
+        for (int i=n-1;i>=0;i--) {
+            int sum = carry + A[i];
+            if (sum == 10) {
+                list.add(0);
+                carry = 1;
+            } else {
+                list.add(sum);
+                carry = 0;
+            }
+        }
+        if (carry == 1) {
+            list.add(carry);
+        }
+        int size = list.size();
+        while (list.get(size-1) == 0) {
+            size--;
+        }
+        int[] ans = new int[size];
+        for (int i=size-1;i>=0;i--) {
+            ans[size - i - 1] = list.get(i);
+        }
+        return ans;
+    }
 
     public static void main(String[] args)
     {
         int[] A = {0,4,5,7,8,5};
-        int[] res = solve(A);
+        int[] res = plusOne(A);
         for (int i=0;i<res.length;i++) {
             System.out.println(res[i]);
         }

@@ -25,6 +25,32 @@ public class Permutations
         }
     }
 
+    public List<List<Integer>> permute1(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> choices = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        permuteHelper(nums, used, choices, result);
+        return result;
+    }
+
+    private void permuteHelper(int[] nums, boolean[] used, List<Integer> choices, List<List<Integer>> result) {
+        if (choices.size() == nums.length) {
+            result.add(new ArrayList<>(choices));
+            return;
+        }
+        for (int i=0;i<nums.length;i++) {
+            // if the ith element is marked as true then this element is already used, no need to consider it again
+            if (used[i]) {
+                continue;
+            }
+            used[i] = true;
+            choices.add(nums[i]);
+            permuteHelper(nums, used, choices, result);
+            used[i] = false;
+            choices.remove(choices.size()-1);
+        }
+    }
+
     public static void main(String[] args)
     {
         int[] nums = {1,2,3};

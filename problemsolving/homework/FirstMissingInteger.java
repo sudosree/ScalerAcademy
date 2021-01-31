@@ -97,6 +97,40 @@ public class FirstMissingInteger
     }
 
     /**
+     * TC = O(nlogn), SC = O(1)
+     */
+    public int firstMissingPositive(int[] A) {
+        // sort the array
+        Arrays.sort(A);
+        int pos = -1;
+        for (int i=0;i<A.length;i++) {
+            if (A[i] > 0) {
+                pos = i;
+                break;
+            }
+        }
+        // if the first positive integer found is not 1 then 1 will be the answer or if there are no positive integers in the array
+        if (pos == -1 || A[pos] != 1) {
+            return 1;
+        }
+        // if the first positive integer is 1 then check if the difference between the consecutive elements are 1 or > 1
+        // if the difference is > 1 then the answer will be the previous element + 1
+        for (int i=pos+1;i<A.length;i++) {
+            if (A[i] - A[i-1] > 1 || A[i] - A[i-1] == 0) {
+                return A[i-1] + 1;
+            }
+        }
+        // if the first positive integer has not started from the 0th element but from any other index
+        // then the missing integer will be the last element plus 1
+        if (pos != 0) {
+            return A[A.length-1] + 1;
+        }
+        // if the first positive integer has started from the 0th element then the missing integer will
+        // be the length of the array plus 1
+        return A.length + 1;
+    }
+
+    /**
      * TC = O(n), SC = O(n)
      */
     private static int solve1(int[] A) {
@@ -121,6 +155,24 @@ public class FirstMissingInteger
             return max+1;
         }
         return 1;
+    }
+
+    /**
+     * TC = O(n), SC = O(n)
+     */
+    public int firstMissingPositive1(int[] A) {
+        Map<Integer, Integer> map = new HashMap<>();
+        // put all the no.s into a hashmap
+        for (int i=0;i<A.length;i++) {
+            map.put(A[i], i);
+        }
+        // then check all the no.s from 1 to n+1, if it is present in the hashmap or not
+        for (int i=1;i<=A.length+1;i++) {
+            if (!map.containsKey(i)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -153,7 +205,8 @@ public class FirstMissingInteger
 
     public static void main(String[] args)
     {
-        int[] A = {2,3,-7,1,6,4,10,15,7};
-        System.out.println(solve2(A));
+//        int[] A = {2,3,-7,1,6,4,10,15,7};
+        int[] A = {1,1,1};
+        System.out.println(solve(A));
     }
 }

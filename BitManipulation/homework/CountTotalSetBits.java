@@ -104,7 +104,7 @@ public class CountTotalSetBits
 
     public static void main(String[] args)
     {
-        int A = 6;
+        int A = 5;
         System.out.println(solve1(A));
     }
 }

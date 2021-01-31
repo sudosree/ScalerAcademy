@@ -82,6 +82,31 @@ public class WaveArray
         return A;
     }
 
+    /**
+     * Time Complexity - O(n)
+     * Space Complexity - O(1)
+     * Not lexicographically smallest
+     */
+    public static int[] wave(int[] A) {
+        for (int i=0;i<A.length;i+=2) {
+            // check if the element at even indexed position is greater than its previous
+            // odd indexed element, if not swap the two
+            if (i>0 && A[i] < A[i-1]) {
+                int t = A[i];
+                A[i] = A[i-1];
+                A[i-1] = t;
+            }
+            // check if the element at even indexed position is greater than its next
+            // odd indexed element, if not swap the two
+            if (i<A.length-1 && A[i] < A[i+1]) {
+                int t = A[i];
+                A[i] = A[i+1];
+                A[i+1] = t;
+            }
+        }
+        return A;
+    }
+
     public static void main(String[] args)
     {
         int[] A = {5, 1, 3, 2, 4};
