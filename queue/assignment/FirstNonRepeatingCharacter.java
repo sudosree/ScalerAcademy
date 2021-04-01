@@ -1,9 +1,6 @@
 package queue.assignment;
 
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class FirstNonRepeatingCharacter {
 
@@ -11,7 +8,7 @@ public class FirstNonRepeatingCharacter {
      * TC = O(n), SC = O(n)
      */
     public String solve(String A) {
-        Deque<Character> queue = new LinkedList<>();
+        Queue<Character> queue = new LinkedList<>();
         Map<Character, Integer> freq = new HashMap<>();
         StringBuilder sb = new StringBuilder();
         for (int i=0;i<A.length();i++) {

@@ -1,7 +1,7 @@
 package queue.assignment;
 
-import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class PerfectNumber {
 
@@ -9,7 +9,7 @@ public class PerfectNumber {
      * TC = O(n), SC = O(n)
      */
     public static String solve(int A) {
-        Deque<String> queue = new LinkedList<>();
+        Queue<String> queue = new LinkedList<>();
         queue.offer("1");
         queue.offer("2");
         int count = 0;

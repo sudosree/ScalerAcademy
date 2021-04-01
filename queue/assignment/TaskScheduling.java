@@ -1,12 +1,12 @@
 package queue.assignment;
 
-import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class TaskScheduling {
 
     public int solve(int[] A, int[] B) {
-        Deque<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue = new LinkedList<>();
         int count = 0;
         for (int i=0;i<A.length;i++) {
             queue.offer(A[i]);
