@@ -34,6 +34,17 @@ public class MaximumSubarray
         return global_max;
     }
 
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int max = nums[0];
+        for (int i=1;i<nums.length;i++) {
+            dp[i] = Math.max(nums[i], nums[i] + dp[i-1]);
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
     private static int[] printMaximumSubarray(int[] A) {
         int local_max = 0, global_max = Integer.MIN_VALUE;
         int curr_start = 0, curr_end, best_start = -1, best_end = -1;

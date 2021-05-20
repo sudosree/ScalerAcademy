@@ -46,8 +46,8 @@ public class NumberOf1Bits
     private static int solve2(long a) {
         int count = 0;
         while (a > 0) {
-            a = a & (a-1);
             count++;
+            a = a & (a-1);
         }
         return count;
     }
