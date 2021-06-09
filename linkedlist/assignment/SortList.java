@@ -44,7 +44,37 @@ public class SortList {
         return head;
     }
 
+    // lists are in sorted order
+    private ListNode mergeList1(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        ListNode dummy = new ListNode();
+        ListNode tail = dummy;
+        ListNode t1 = l1, t2 = l2;
+        while (t1 != null && t2 != null) {
+            if (t1.val <= t2.val) {
+                tail.next = t1;
+                t1 = t1.next;
+            } else {
+                tail.next = t2;
+                t2 = t2.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (t1 != null) ? t1 : t2;
+        return dummy.next;
+    }
+
     private ListNode getMiddle(ListNode A) {
+        // if the list is empty or the list contains only one element
+        // then return the head node
+        if (A == null || A.next == null) {
+            return A;
+        }
         ListNode prev = null, slow = A, fast = A;
         while (fast != null && fast.next != null) {
             prev = slow;

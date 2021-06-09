@@ -17,6 +17,30 @@ public class ReverseLinkedList {
         return prev;
     }
 
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode prev = null, curr = head, next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    public ListNode reverseList1(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode t = reverseList1(head.next);
+        head.next.next = head;
+        head.next = null;
+        return t;
+    }
+
     private static void printList(ListNode A) {
         ListNode temp = A;
         while (temp != null) {

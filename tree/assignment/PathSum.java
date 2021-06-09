@@ -7,7 +7,7 @@ public class PathSum {
     /**
      * TC = O(n), SC = O(n) -> in worst case
      */
-    public int hasPathSum(TreeNode A, int B) {
+    public int hasPathSum1(TreeNode A, int B) {
         return pathSum(A, 0, B) ? 1 : 0;
     }
 
@@ -23,7 +23,7 @@ public class PathSum {
                 pathSum(root.right, currSum, sum);
     }
 
-    public int hasPathSum1(TreeNode A, int B) {
+    public int hasPathSum2(TreeNode A, int B) {
         return pathSum(A, B) ? 1 : 0;
     }
 
@@ -36,5 +36,15 @@ public class PathSum {
             return sum == 0;
         }
         return pathSum(root.left, sum) || pathSum(root.right, sum);
+    }
+
+    private boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null && root.val == targetSum) {
+            return true;
+        }
+        return hasPathSum(root.left, targetSum-root.val) || hasPathSum(root.right, targetSum-root.val);
     }
 }

@@ -1,4 +1,4 @@
-package linkedlist.assignment;
+package dynamicprogramming.assignment;
 
 import java.util.ArrayList;
 import java.util.List;

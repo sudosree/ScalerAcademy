@@ -29,4 +29,26 @@ public class KthSmallestElement {
         }
         return -1;
     }
+
+    private int ans;
+    private int count;
+
+    public int kthSmallest(TreeNode root, int k) {
+        count = k;
+        kthSmallestHelper(root);
+        return ans;
+    }
+
+    private void kthSmallestHelper(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        kthSmallestHelper(root.left);
+        count--;
+        if (count == 0) {
+            ans = root.val;
+            return;
+        }
+        kthSmallestHelper(root.right);
+    }
 }

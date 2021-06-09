@@ -65,6 +65,34 @@ public class ConstructBinaryTreeFromPreorderAndInorder {
         return root;
     }
 
+    /**
+     * best approach
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree2(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> inorderMap = new HashMap<>();
+        for (int i=0;i<inorder.length;i++) {
+            inorderMap.put(inorder[i], i);
+        }
+        return constructTreeHelper(preorder, inorderMap, 0, 0, inorder.length-1);
+    }
+
+    private TreeNode constructTreeHelper(int[] preorder, Map<Integer, Integer> map, int pre, int in_left, int in_right) {
+        // out of range
+        if (pre > preorder.length-1 || in_left > in_right) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[pre]);
+        int root_idx = map.get(preorder[pre]);
+        // pre + 1 determines the root index for the left subtree in the preorder array
+        root.left = constructTreeHelper(preorder, map, pre + 1, in_left, root_idx - 1);
+        // pre + root_idx - in_left + 1 determines the root index for the right subtree in the preorder array
+        root.right = constructTreeHelper(preorder, map, pre + root_idx - in_left + 1, root_idx + 1, in_right);
+        return root;
+    }
+
     public static void main(String[] args) {
         int[] preorder = {1,2,3};
         int[] inorder = {2,3,1};

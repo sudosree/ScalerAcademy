@@ -1,4 +1,4 @@
-package binarysearch;
+package binarysearch.practice;
 
 public class UpperBound {
 
