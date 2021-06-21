@@ -33,6 +33,38 @@ public class PalindromePartitioning {
         }
     }
 
+    public List<List<String>> partition2(String s) {
+        List<List<String>> res = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        partitionHelper(s, 0, s.length()-1, list, res);
+        return res;
+    }
+
+    private void partitionHelper(String s, int start, int end, List<String> list, List<List<String>> res) {
+        if (start > end) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i=start; i<=end; i++) {
+            if (isPalindrome(s, start, i)) {
+                list.add(s.substring(start, i+1));
+                partitionHelper(s, i+1, end, list, res);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+
+    private boolean isPalindrome(String s, int i, int j) {
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+
     private boolean isPalindrome(String s) {
         int i = 0, j = s.length()-1;
         while (i <= j) {

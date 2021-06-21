@@ -1,5 +1,7 @@
 package dynamicprogramming.assignment;
 
+import java.util.Arrays;
+
 public class EditDistance {
 
     /**
@@ -89,5 +91,45 @@ public class EditDistance {
             dp[i][j] = Math.min(insert, Math.min(delete, replace));
         }
         return dp[i][j];
+    }
+
+    private int[][] ed;
+
+    public int minDistance2(String A, String B) {
+        int n = A.length(), m = B.length();
+        ed = new int[n+1][m+1];
+        for (int i=0;i<n+1;i++) {
+            Arrays.fill(ed[i], -1);
+        }
+        return minDistanceHelper1(A, B, n, m);
+    }
+
+    private int minDistanceHelper1(String A, String B, int i, int j) {
+        // if both the strings are empty then the ans is 0
+        if (i == 0 && j == 0) {
+            return 0;
+        }
+        // if string A becomes empty then we have to insert the remaining
+        // characters of string B
+        if (i == 0) {
+            return j;
+        }
+        // if string B becomes empty then we have to delete the remaining
+        // characters of string A
+        if (j == 0) {
+            return i;
+        }
+        if (ed[i][j] != -1) {
+            return ed[i][j];
+        }
+        if (A.charAt(i-1) == B.charAt(j-1)) {
+            ed[i][j] = minDistanceHelper1(A, B, i-1, j-1);
+        } else {
+            int replace = 1 + minDistanceHelper1(A, B, i-1, j-1);
+            int insert = 1 + minDistanceHelper1(A, B, i, j-1);
+            int delete = 1 + minDistanceHelper1(A, B, i-1, j);
+            ed[i][j] = Math.min(replace, Math.min(insert, delete));
+        }
+        return ed[i][j];
     }
 }

@@ -108,6 +108,23 @@ public class LongestIncreasingSubsequence {
         return ans;
     }
 
+    private int lengthOfLIS4(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+
+        int max = 1;
+        for (int i=1; i<nums.length; i++) {
+            dp[i] = 1;
+            for (int j=0; j<i; j++) {
+                if (nums[j] < nums[i]) {
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
     /**
      * TC = O(nlogn), SC = O(n)
      */
@@ -147,7 +164,7 @@ public class LongestIncreasingSubsequence {
     }
 
     public static void main(String[] args) {
-        int[] A = {5, 5, 3, 2, 2, 4, 3, 5, 9, 6};
+        int[] A = {0,8,4,12,2,10,6,14,1,9,5};
         System.out.println(lengthOfLIS1(A));
         System.out.println(findLIS1(A));
         System.out.println(lengthOfLIS2(A));

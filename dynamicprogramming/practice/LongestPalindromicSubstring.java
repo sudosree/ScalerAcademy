@@ -1,11 +1,13 @@
 package dynamicprogramming.practice;
 
+import java.util.Arrays;
+
 public class LongestPalindromicSubstring {
 
     /**
      * TC = O(n^2), SC = O(n^2)
      */
-    public String longestPalindrome(String s) {
+    public static String longestPalindrome(String s) {
         int n = s.length();
         boolean[][] dp = new boolean[n+1][n+1];
 
@@ -52,5 +54,10 @@ public class LongestPalindromicSubstring {
             sb.append(s.charAt(i-1));
         }
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        String s = "a";
+        System.out.println(longestPalindrome(s));
     }
 }
