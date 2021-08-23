@@ -77,6 +77,63 @@ public class DijkstraSparseGraph {
         }
     }
 
+    private static void dijkstra(int[][] graph, int n, int src) {
+        Map<Integer, Set<Node>> map = new HashMap<>();
+        for (int i=1;i<=n;i++) {
+            map.put(i, new HashSet<>());
+        }
+        for (int i=0;i<graph.length;i++) {
+            int u = graph[i][0];
+            int v = graph[i][1];
+            int w = graph[i][2];
+            map.get(u).add(new Node(v, w));
+            map.get(v).add(new Node(u, w));
+        }
+        // to keep track of the shortest distance from the source
+        // vertex to all the other vertices
+        int[] dist = new int[n+1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        PriorityQueue<Node> pq = new PriorityQueue<>(new DistanceComparator());
+        pq.offer(new Node(src, 0));
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(new MyComparator());
+
+        boolean[] visited = new boolean[n+1];
+
+        while (!pq.isEmpty()) {
+            Node node = pq.poll();
+            int u = node.vertex;
+            if (!visited[u]) {
+                visited[u] = true;
+                Set<Node> neighbors = map.get(u);
+                for (Node no : neighbors) {
+                    int v = no.vertex;
+                    int w = no.dist;
+                    if (!visited[v] && dist[u] + w < dist[v]) {
+                        dist[v] = dist[u] + w;
+                        pq.offer(new Node(v, dist[v]));
+                    }
+                }
+            }
+        }
+
+        for (int i=1;i<=n;i++) {
+            System.out.println(src + " - " + i + ": " + dist[i]);
+        }
+    }
+
+    static class MyComparator implements Comparator<int[]> {
+        @Override
+        public int compare(int[] a, int[] b) {
+            if (a[1] == b[1]) {
+                return 0;
+            }
+            return a[1] < b[1] ? -1 : 1;
+        }
+    }
+
     public static void main(String[] args) {
         int A = 8;
         int[][] B = {
@@ -91,5 +148,6 @@ public class DijkstraSparseGraph {
                 {7,8,3},
         };
         solve(A,B,5);
+        dijkstra(B, A, 5);
     }
 }

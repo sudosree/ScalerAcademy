@@ -127,4 +127,28 @@ public class PalindromePartitioning {
             }
         }
     }
+
+    public List<List<String>> partition3(String s) {
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        List<List<String>> res = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        partitionHelper1(s, 0, list, res, dp);
+        return res;
+    }
+
+    private void partitionHelper1(String s, int start, List<String> list, List<List<String>> res, boolean[][] dp) {
+        if (start == s.length()) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int end=start; end<s.length(); end++) {
+            if (s.charAt(start) == s.charAt(end) && (end - start <= 2 || dp[start+1][end-1])) {
+                dp[start][end] = true;
+                list.add(s.substring(start, end+1));
+                partitionHelper1(s, end+1, list, res, dp);
+                list.remove(list.size()-1);
+            }
+        }
+    }
 }

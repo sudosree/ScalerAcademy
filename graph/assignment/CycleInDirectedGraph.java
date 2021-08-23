@@ -50,7 +50,7 @@ public class CycleInDirectedGraph {
                 {1,2},
                 {2,3},
                 {3,4},
-                {4,5},
+                {4,5}
         };
         System.out.println(solve(A,B));
     }

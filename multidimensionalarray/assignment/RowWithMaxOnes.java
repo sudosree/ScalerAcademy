@@ -103,6 +103,30 @@ public class RowWithMaxOnes
         return rowIndex;
     }
 
+    private static int maxOne(int[][] nums) {
+        int r = -1, maxCount = 0;
+        int n = nums.length, m = nums[0].length;
+        for (int i=0;i<n;i++) {
+            int[] row = nums[i];
+            if (row[0] == 1) {
+                return i;
+            }
+            int count = 0;
+            // find the no. of ones in this row
+            if (row[m-1] == 1) {
+                for (int j=0;j<m;j++) {
+                    if (row[j] == 1) {
+                        count++;
+                    }
+                }
+            }
+            if (count > maxCount) {
+                r = i;
+            }
+        }
+        return r;
+    }
+
     public static void main(String[] args)
     {
         int[][] A = {
@@ -113,5 +137,6 @@ public class RowWithMaxOnes
                 {1,1,1,1}
         };
         System.out.println(solve(A));
+        System.out.println(maxOne(A));
     }
 }

@@ -24,7 +24,7 @@ public class RottenOranges {
     }
 
     /**
-     * TC = O(V+E), SC = O(V) = O(n*m)
+     * TC = O(n * m), SC = O(N)
      */
     private static int solve(int[][] A) {
         int n = A.length, m = A[0].length;

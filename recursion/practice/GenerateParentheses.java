@@ -73,9 +73,35 @@ public class GenerateParentheses
         }
     }
 
+    public static List<String> generateParenthesis1(int n) {
+        List<String> res = new ArrayList<>();
+        generateParenthesisHelper1(res, new StringBuilder(), 0, 0, n);
+        return res;
+    }
+
+    private static void generateParenthesisHelper1(List<String> res, StringBuilder sb, int open, int close, int max) {
+        if (sb.length() == 2 * max) {
+            res.add(sb.toString());
+            return;
+        }
+        // if the no. of open brackets are less than max then add them
+        if (open < max) {
+            sb.append("(");
+            generateParenthesisHelper1(res, sb, open+1, close, max);
+            sb.deleteCharAt(sb.length()-1);
+        }
+
+        // if the no. of closing brackets are less than open brackets
+        if (close < open) {
+            sb.append(")");
+            generateParenthesisHelper1(res, sb, open, close+1, max);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
+
     public static void main(String[] args)
     {
-        int n = 3;
-        System.out.println(generateParenthesis(n));
+        int n = 2;
+        System.out.println(generateParenthesis1(n));
     }
 }

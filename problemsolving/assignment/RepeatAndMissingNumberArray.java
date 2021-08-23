@@ -70,6 +70,28 @@ public class RepeatAndMissingNumberArray
         return new int[]{repeatingNo, missingNo};
     }
 
+    public int[] repeatedNumber2(final int[] A) {
+        // mark the no. which you have seen as negative
+        int[] ans = new int[2];
+        for (int i=0; i<A.length; i++) {
+            int num = Math.abs(A[i]);
+            if (A[num - 1] > 0) {
+                A[num - 1] *= -1;
+            }
+            // has already been marked negative before
+            else {
+                ans[0] = num;
+            }
+        }
+        // for finding repeating no
+        for (int i=0;i<A.length;i++) {
+            if (A[i] > 0) {
+                ans[1] = i+1;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
         int[] A = {3,1,2,3,5};

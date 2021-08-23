@@ -41,6 +41,16 @@ public class PathInDirectedGraph {
         }
     }
 
+    private void dfs(int u, Map<Integer, Set<Integer>> graph, boolean[] visited) {
+        visited[u] = true;
+        Set<Integer> neighbors = graph.get(u);
+        for (int v : neighbors) {
+            if (!visited[v]) {
+                dfs(v, graph, visited);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int A = 5;
         int[][] B = {

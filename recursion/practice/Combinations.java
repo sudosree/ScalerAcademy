@@ -4,6 +4,13 @@ import java.util.*;
 
 public class Combinations
 {
+    /**
+     * TC = O(k * nCk) (where nCk = no. of combinations and k = length of each combination
+     * SC = O(
+     * @param n
+     * @param k
+     * @return
+     */
     private static List<List<Integer>> combine(int n, int k) {
         List<Integer> choices = new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();

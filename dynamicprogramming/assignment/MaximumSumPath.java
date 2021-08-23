@@ -29,4 +29,34 @@ public class MaximumSumPath {
         max_sum_path = Math.max(max_sum_path, max_sum_tree);
         return max_sum_single;
     }
+
+    static class TreeNodeInfo {
+        int val;
+        int maxPath;
+        int maxPathSum;
+
+        TreeNodeInfo(int val, int maxPath, int maxPathSum) {
+            this.val = val;
+            this.maxPath = maxPath;
+            this.maxPathSum = maxPathSum;
+        }
+    }
+
+    private int maxPathSum1(TreeNode root) {
+        TreeNodeInfo node = maxPathSumHelper1(root);
+        return node.maxPathSum;
+    }
+
+    private TreeNodeInfo maxPathSumHelper1(TreeNode root) {
+        if (root == null) {
+            return new TreeNodeInfo(-1, 0, 0);
+        }
+        TreeNodeInfo left = maxPathSumHelper1(root.left);
+        TreeNodeInfo right = maxPathSumHelper1(root.right);
+
+        int maxPath = Math.max(root.val, Math.max(left.maxPath, right.maxPath) + root.val);
+        int maxPathSum = Math.max(maxPath, root.val + left.maxPath + right.maxPath);
+        maxPathSum = Math.max(maxPathSum, Math.max(left.maxPathSum, right.maxPathSum));
+        return new TreeNodeInfo(root.val, maxPath, maxPathSum);
+    }
 }

@@ -203,10 +203,50 @@ public class FirstMissingInteger
         return i+1;
     }
 
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        int i=0;
+        while (i < nums.length) {
+            while (nums[i] != i+1) {
+                int j = nums[i]-1;
+                // duplicate
+                if (nums[j] == nums[i]) {
+                    break;
+                }
+                int temp = nums[j];
+                nums[j] = nums[i];
+                nums[i] = temp;
+            }
+            i++;
+        }
+        for (int k=0;k<nums.length;k++) {
+            if (nums[k] != k+1) {
+                ans.add(k+1);
+            }
+        }
+        return ans;
+    }
+
+    public List<Integer> findDisappearedNumbers1(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        for (int i=0;i<nums.length;i++) {
+            int j = Math.abs(nums[i]) - 1;
+            if (nums[j] > 0) {
+                nums[j] *= -1;
+            }
+        }
+        for (int i=1;i<=nums.length;i++) {
+            if (nums[i-1] > 0) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
-//        int[] A = {2,3,-7,1,6,4,10,15,7};
-        int[] A = {1,1,1};
+        int[] A = {2,3,-7,1,6,4,10,15,7};
+//        int[] A = {1,1,1};
         System.out.println(solve(A));
     }
 }

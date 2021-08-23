@@ -66,6 +66,51 @@ public class LargestRectangleInHistogram {
         return max_area;
     }
 
+    public int largestRectangleArea2(int[] heights) {
+        int maxArea = 0;
+        for (int i=0;i<heights.length;i++) {
+            int minHeight = heights[i];
+            for (int j=i;j<heights.length;j++) {
+                minHeight = Math.min(minHeight, heights[j]);
+                int width = j - i + 1;
+                maxArea = Math.max(maxArea, minHeight * width);
+            }
+        }
+        return maxArea;
+    }
+
+    public int largestRectangleArea3(int[] heights) {
+        int maxArea = 0, n = heights.length;
+        // will store all the elements in increasing order
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1);
+        for (int i=0; i<n; i++) {
+            while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
+                // pop the element from the stack and calculate the area of the
+                // largest rectangle that can be formed with the current element
+                int currentHeight = heights[stack.pop()];
+                // left and right limit represents the index of the nearest smaller no. to
+                // the left and right side of the current element
+                int leftLimit = stack.peek();
+                int rightLimit = i;
+                int width = rightLimit - leftLimit - 1;
+                maxArea = Math.max(maxArea, width * currentHeight);
+            }
+            // push the current index to the stack
+            stack.push(i);
+        }
+
+        // if there are still elements present in the stack
+        while (stack.peek() != -1) {
+            int currentHeight = heights[stack.pop()];
+            int leftLimit = stack.peek();
+            int rightLimit = n;
+            int width = rightLimit - leftLimit - 1;
+            maxArea = Math.max(maxArea, width * currentHeight);
+        }
+        return maxArea;
+    }
+
     public static void main(String[] args) {
         int[] A = {2, 1, 5, 6, 2, 3};
         System.out.println(largestRectangleArea(A));

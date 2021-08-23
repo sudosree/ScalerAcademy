@@ -92,14 +92,14 @@ public class TopologicalSort {
     }
 
     public static void main(String[] args) {
-        int A = 5;
+        int A = 6;
         int[][] B = {
                 {1,2},
                 {1,4},
                 {2,3},
-                {2,4},
                 {4,5},
-                {5,3},
+                {3,6},
+                {5,6},
         };
         System.out.println(findTopologicalSortUsingIndegree(A, B));
         System.out.println(topologicalSortUsingDFS(A, B));

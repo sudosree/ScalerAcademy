@@ -80,6 +80,12 @@ import java.util.*;
 public class Subset
 {
 
+    /**
+     * TC = O(n * 2^n)
+     * SC = O(n)
+     * @param A
+     * @return
+     */
     private static List<List<Integer>> subsets(List<Integer> A) {
         List<List<Integer>> result = new ArrayList<>();
         List<Integer> choices = new ArrayList<>();

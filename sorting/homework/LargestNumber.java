@@ -97,9 +97,36 @@ public class LargestNumber
         return sb.toString();
     }
 
+    public static String largestNumber(final List<Integer> A) {
+        Collections.sort(A, new MyComparator());
+        StringBuilder sb = new StringBuilder();
+        for (int i=0;i<A.size();i++) {
+            sb.append(A.get(i));
+        }
+        if (sb.charAt(0) == '0') {
+            return "0";
+        }
+        return sb.toString();
+    }
+
+    static class MyComparator implements Comparator<Integer> {
+        @Override
+        public int compare(Integer a, Integer b) {
+            String s = String.valueOf(a);
+            String t = String.valueOf(b);
+            String st = s + t;
+            String ts = t + s;
+            /*if (st.equals(ts)) {
+                return 0;
+            }*/
+            return ts.compareTo(st);
+        }
+    }
+
     public static void main(String[] args)
     {
-        List<Integer> A = Arrays.asList(0, 0, 0, 0, 0);
+        List<Integer> A = Arrays.asList(54, 546, 548, 60);
         System.out.println(solve(A));
+        System.out.println(largestNumber(A));
     }
 }

@@ -5,39 +5,47 @@ public class KReverseLinkedList {
     /**
      * TC = O(n), SC = O(1)
      */
-    public ListNode reverseList(ListNode A, int B) {
-        // keep track of the final new head to be returned
-        ListNode new_head = null;
-        ListNode ptr = A;
-        // keep track of the tail node of the reversed list
-        ListNode btail = null;
+    public ListNode reverseKGroup(ListNode head, int k) {
+        int count = 0;
+        ListNode ktail = null, ptr = head, newHead = null;
         while (ptr != null) {
-            for (int i=0;i<B;i++) {
+            count = 0;
+            // check if there are at least k nodes present
+            while (count < k && ptr != null) {
                 ptr = ptr.next;
+                count++;
             }
-            // reverse B nodes
-            ListNode rev_head = reverse(A, B);
-            if (new_head == null) {
-                new_head = rev_head;
+
+            if (count == k) {
+                ListNode revHead = reverseLinkedList(head, k);
+                // this is the first set of k nodes
+                if (newHead == null) {
+                    newHead = revHead;
+                }
+                if (ktail != null) {
+                    ktail.next = revHead;
+                }
+                ktail = head;
+                head = ptr;
             }
-            if (btail != null) {
-                btail.next = rev_head;
-            }
-            btail = A;
-            A = ptr;
         }
-        return new_head;
+        // attach the unreversed portion to the ktail
+        if (ktail != null) {
+            ktail.next = head;
+        }
+        return newHead == null ? head : newHead;
     }
 
-    private ListNode reverse(ListNode A, int B) {
-        ListNode new_head = null, curr = A;
-        while (B > 0 && curr != null) {
+    private ListNode reverseLinkedList(ListNode head, int k) {
+        ListNode prev = null, curr = head;
+        // there will be atleast k nodes in the linked list
+        while (k > 0) {
             ListNode next = curr.next;
-            curr.next = new_head;
-            new_head = curr;
+            curr.next = prev;
+            prev = curr;
             curr = next;
-            B--;
+            k--;
         }
-        return new_head;
+        return prev;
     }
 }

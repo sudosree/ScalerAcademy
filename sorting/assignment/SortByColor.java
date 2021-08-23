@@ -82,6 +82,30 @@ public class SortByColor
         }
     }
 
+    public void sortColors1(int[] nums) {
+        // p0 will track the rightmost boundary of 0s
+        int p0 = 0;
+        // p2 will track the leftmost boundary of 2s
+        int p2 = nums.length-1;
+        int curr = 0;
+        while (curr <= p2) {
+            if (nums[curr] == 0) {
+                int t = nums[curr];
+                nums[curr] = nums[p0];
+                nums[p0] = t;
+                p0++;
+                curr++;
+            } else if (nums[curr] == 2) {
+                int t = nums[curr];
+                nums[curr] = nums[p2];
+                nums[p2] = t;
+                p2--;
+            } else {
+                curr++;
+            }
+        }
+    }
+
     public static void main(String[] args)
     {
         int[] A = {0, 1, 2, 0, 0, 0, 1, 1, 2};

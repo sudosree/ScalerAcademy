@@ -4,6 +4,12 @@ import java.util.*;
 
 public class Permutations
 {
+    /**
+     * TC = O(n * n!) (total there are n! permutations and to generate each permutation it takes O(n) time)
+     * SC = O(n) (O(n) = choices list, O(n) = recursive stack)
+     * @param nums
+     * @return
+     */
     private static List<List<Integer>> permute(int[] nums) {
         List<Integer> choices = new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();

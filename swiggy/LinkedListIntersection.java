@@ -26,4 +26,21 @@ public class LinkedListIntersection {
         }
         return null;
     }
+
+    public ListNode getIntersectionNode1(ListNode headA, ListNode headB) {
+        ListNode currA = headA, currB = headB;
+        while (currA != currB) {
+            if (currA != null) {
+                currA = currA.next;
+            } else {
+                currA = headB;
+            }
+            if (currB != null) {
+                currB = currB.next;
+            } else {
+                currB = headA;
+            }
+        }
+        return currA;
+    }
 }

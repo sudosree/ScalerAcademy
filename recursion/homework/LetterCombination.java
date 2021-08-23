@@ -117,6 +117,13 @@ public class LetterCombination
         return result;
     }
 
+    /**
+     * TC = O(n * 3^n * 4^n) (length of the combination will be n,
+     * to build the combination it will take O(n) time)
+     * SC = O(n)
+     * @param A
+     * @return
+     */
     private static List<String> letterCombination(String A) {
         List<String> result = new ArrayList<>();
         StringBuilder sb = new StringBuilder();

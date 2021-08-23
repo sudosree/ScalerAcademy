@@ -53,7 +53,7 @@ public class PermutationsII
 
     public static void main(String[] args)
     {
-        int[] nums = {1,2,2};
+        int[] nums = {3,3,0,3};
         System.out.println(permuteUnique(nums));
     }
 }

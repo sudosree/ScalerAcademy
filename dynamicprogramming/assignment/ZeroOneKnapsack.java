@@ -132,10 +132,32 @@ public class ZeroOneKnapsack {
         return ans;
     }
 
+    private static int knapsack(int[] values, int[] weights, int capacity) {
+        return knapsackHelper(values, weights, capacity, 0, 0);
+    }
+
+    private static int knapsackHelper(int[] values, int[] weights, int capacity, int index, int profit) {
+        // you have found all the weights
+        if (capacity == 0) {
+            return profit;
+        }
+        if (index == weights.length) {
+            return profit;
+        }
+        // every element has two choices select or do not select
+        int select = 0;
+        if (weights[index] <= capacity) {
+            select = knapsackHelper(values, weights, capacity - weights[index], index+1, profit + values[index]);
+        }
+        int notSelect = knapsackHelper(values, weights, capacity, index+1, profit);
+        return Math.max(select, notSelect);
+    }
+
     public static void main(String[] args) {
-        int[] A = {1,3,5,6};
-        int[] B = {1,3,4,5};
-        System.out.println(solve3(A,B,7));
-        System.out.println(solve4(A,B,7));
+        int[] A = {60, 100, 120};
+        int[] B = {10, 20, 30};
+        System.out.println(solve3(A,B,50));
+        System.out.println(solve4(A,B,50));
+        System.out.println(knapsack(A, B, 50));
     }
 }

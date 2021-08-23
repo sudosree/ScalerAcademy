@@ -1,7 +1,9 @@
 package hashmap.assignment;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Determine if a Sudoku is valid, according to: http://sudoku.com.au/TheRules.aspx
@@ -105,10 +107,74 @@ public class ValidSudoku
         return validRow && validCol && validSubBoxes ? 1 : 0;
     }
 
+    public static boolean isValidSudoku(char[][] board) {
+        return checkRow(board) && checkColumn(board) && boxValid(board);
+    }
+
+    private static boolean checkRow(char[][] board) {
+        for (int r=0; r<9; r++) {
+            Set<Character> set = new HashSet<>();
+            for (int c=0; c<9; c++) {
+                char t = board[r][c];
+                if (t != '.') {
+                    if (set.contains(t)) {
+                        return false;
+                    }
+                    set.add(t);
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean checkColumn(char[][] board) {
+        for (int c=0; c<9; c++) {
+            Set<Character> set = new HashSet<>();
+            for (int r=0; r<9; r++) {
+                char t = board[r][c];
+                if (t != '.') {
+                    if (set.contains(t)) {
+                        return false;
+                    }
+                    set.add(t);
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean boxValid(char[][] board) {
+        Map<Integer, Set<Character>> map = new HashMap<>();
+        for (int r=0; r<9; r++) {
+            for (int c=0; c<9; c++) {
+                int boxId = (r/3) * 3 + (c/3);
+                if (!map.containsKey(boxId)) {
+                    map.put(boxId, new HashSet<>());
+                }
+                char t = board[r][c];
+                if (t != '.') {
+                    if (map.get(boxId).contains(t)) {
+                        return false;
+                    }
+                    map.get(boxId).add(t);
+                }
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args)
     {
-        String[] A = {
-                "53..7....", "6..195...", ".98....6.", "8...6...3", "4..8.3..1", "7...2...6", ".6....28.", "...419..5", "....8..79"
+        char[][] A = {
+                {'5','3','.','.','7','.','.','.','.'},
+                {'6','.','.','1','9','5','.','.','.'},
+                {'.','9','8','.','.','.','.','6','.'},
+                {'8','.','.','.','6','.','.','.','3'},
+                {'4','.','.','8','.','3','.','.','1'},
+                {'7','.','.','.','2','.','.','.','6'},
+                {'.','6','.','.','.','.','2','8','.'},
+                {'.','.','.','4','1','9','.','.','5'},
+                {'.','.','.','.','8','.','.','7','9'}
         };
         System.out.println(isValidSudoku(A));
     }

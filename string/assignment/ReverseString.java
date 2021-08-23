@@ -118,6 +118,115 @@ public class ReverseString
         return new String(ch).substring(0, pos);
     }
 
+    /**
+     * Using built in function trim and split
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+
+        // step 1: trim the leading and trailing spaces
+        String str = s.trim();
+
+        // step 2: split the words by spaces
+        String[] words = str.split("\\s+");
+
+        StringBuilder sb = new StringBuilder();
+        // step 3 : reverse each word
+        for (String word : words) {
+            char[] ch = word.toCharArray();
+            reverse(ch);
+            sb.append(String.valueOf(ch)).append(" ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+
+        // step 4 : reverse the whole string
+        char[] p = sb.toString().toCharArray();
+        reverse(p);
+        return String.valueOf(p);
+    }
+
+    private void reverse(char[] ch) {
+        int left = 0, right = ch.length - 1;
+        while (left < right) {
+            char t = ch[left];
+            ch[left] = ch[right];
+            ch[right] = t;
+            left++;
+            right--;
+        }
+    }
+
+    public String reverseWords1(String s) {
+
+        // convert the string to stringbuilder and trim spaces at the same time
+        StringBuilder sb = trimSpaces(s);
+
+        // reverse the whole string
+        reverse(sb, 0, sb.length()-1);
+
+        // reverse individual words
+        reverseWord(sb);
+
+        return sb.toString();
+    }
+
+    private StringBuilder trimSpaces(String s) {
+        int left = 0, right = s.length()-1;
+
+        // remove all the leading spaces
+        while (left <= right && s.charAt(left) == ' ') {
+            left++;
+        }
+
+        // remove all the trailing spaces
+        while (left <= right && s.charAt(right) == ' ') {
+            right--;
+        }
+
+        // remove the multiple spaces between the words to single space
+        StringBuilder sb = new StringBuilder();
+        while (left <= right) {
+            char c = s.charAt(left);
+            if (c != ' ') {
+                sb.append(c);
+            } else {
+                // if the end character of the stringbuilder is not equal to space
+                // then add the empty space otherwise do not add
+                if (sb.charAt(sb.length()-1) != ' ') {
+                    sb.append(c);
+                }
+            }
+            left++;
+        }
+        return sb;
+    }
+
+    private void reverse(StringBuilder sb, int left, int right) {
+        while (left < right) {
+            char t = sb.charAt(left);
+            sb.setCharAt(left, sb.charAt(right));
+            sb.setCharAt(right, t);
+            left++;
+            right--;
+        }
+    }
+
+    private void reverseWord(StringBuilder sb) {
+        int n = sb.length();
+        int left = 0, right = 0;
+        while (left < n) {
+            while (right < n && sb.charAt(right) != ' ') {
+                right++;
+            }
+            // reverse the word
+            reverse(sb, left, right-1);
+            // move to next word
+            left = right + 1;
+            right++;
+        }
+    }
+
     public static void main(String[] args)
     {
         String A = "   the  sky  is blue   ";

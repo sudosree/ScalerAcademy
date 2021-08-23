@@ -71,7 +71,7 @@ public class ConstructBinaryTreeFromPreorderAndInorder {
      * @param inorder
      * @return
      */
-    public TreeNode buildTree2(int[] preorder, int[] inorder) {
+    public static TreeNode buildTree2(int[] preorder, int[] inorder) {
         Map<Integer, Integer> inorderMap = new HashMap<>();
         for (int i=0;i<inorder.length;i++) {
             inorderMap.put(inorder[i], i);
@@ -79,7 +79,7 @@ public class ConstructBinaryTreeFromPreorderAndInorder {
         return constructTreeHelper(preorder, inorderMap, 0, 0, inorder.length-1);
     }
 
-    private TreeNode constructTreeHelper(int[] preorder, Map<Integer, Integer> map, int pre, int in_left, int in_right) {
+    private static TreeNode constructTreeHelper(int[] preorder, Map<Integer, Integer> map, int pre, int in_left, int in_right) {
         // out of range
         if (pre > preorder.length-1 || in_left > in_right) {
             return null;
@@ -94,8 +94,8 @@ public class ConstructBinaryTreeFromPreorderAndInorder {
     }
 
     public static void main(String[] args) {
-        int[] preorder = {1,2,3};
-        int[] inorder = {2,3,1};
-        System.out.println(buildTree(preorder, inorder));
+        int[] preorder = {3,4,6,7,5,8,9};
+        int[] inorder = {6,4,7,3,8,5,9};
+        System.out.println(buildTree2(preorder, inorder));
     }
 }

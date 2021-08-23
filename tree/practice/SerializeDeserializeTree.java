@@ -9,13 +9,13 @@ import java.util.Queue;
 public class SerializeDeserializeTree {
 
     // Encodes a tree to a single string.
-    public String serialize(TreeNode root) {
+    public static String serialize(TreeNode root) {
         StringBuilder sb = new StringBuilder();
         buildString(root, sb);
         return sb.toString();
     }
 
-    private void buildString(TreeNode root, StringBuilder sb) {
+    private static void buildString(TreeNode root, StringBuilder sb) {
         if (root == null) {
             sb.append("X").append(",");
             return;
@@ -26,14 +26,14 @@ public class SerializeDeserializeTree {
     }
 
     // Decodes your encoded data to tree.
-    public TreeNode deserialize(String data) {
+    public static TreeNode deserialize(String data) {
         String[] str = data.split(",");
         Queue<String> queue = new LinkedList<>();
         queue.addAll(Arrays.asList(str));
         return buildTree(queue);
     }
 
-    private TreeNode buildTree(Queue<String> queue) {
+    private static TreeNode buildTree(Queue<String> queue) {
         String s = queue.poll();
         if (s.equals("X")) {
             return null;
@@ -42,5 +42,14 @@ public class SerializeDeserializeTree {
         root.left = buildTree(queue);
         root.right = buildTree(queue);
         return root;
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(2);
+        root.left = new TreeNode(1);
+        root.right = new TreeNode(3);
+        String s = serialize(root);
+        System.out.println(s);
+        deserialize(s);
     }
 }

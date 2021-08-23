@@ -56,6 +56,27 @@ public class LongestPalindromicSubstring {
         return sb.toString();
     }
 
+    private int start = 0, maxLen = 0;
+
+    public String longestPalindrome1(String s) {
+        for (int i=0; i<s.length(); i++) {
+            expandAroundMiddle(s, i, i);
+            expandAroundMiddle(s, i, i+1);
+        }
+        return s.substring(start, start+maxLen);
+    }
+
+    private void expandAroundMiddle(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        if (right - left - 1 > maxLen) {
+            start = left+1;
+            maxLen = right-left-1;
+        }
+    }
+
     public static void main(String[] args) {
         String s = "a";
         System.out.println(longestPalindrome(s));

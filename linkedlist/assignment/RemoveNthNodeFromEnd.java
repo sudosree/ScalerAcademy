@@ -48,6 +48,27 @@ public class RemoveNthNodeFromEnd {
         return A;
     }
 
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        // use two pointer approach to remove the nth node
+        // first move the first pointer by (n + 1) nodes
+        // then move both the first and second pointer by 1 places
+        // when the first pointer reaches null node second pointer reaches the (n-1)th node
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode first = dummy, second = dummy;
+        for (int i=1; i<=n+1; i++) {
+            first = first.next;
+        }
+
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+        return dummy.next;
+    }
+
     private static void printList(ListNode A) {
         ListNode temp = A;
         while (temp != null) {

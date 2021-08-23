@@ -111,15 +111,45 @@ public class GroupAnagrams
         return arr;
     }
 
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> ans = new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (int i=0;i<strs.length;i++) {
+            int[] freq = new int[26];
+            String s = strs[i];
+            for (int j=0;j<s.length();j++) {
+                freq[s.charAt(j)-'a']++;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int j=0;j<26;j++) {
+                sb.append("#").append(freq[j]);
+            }
+            String str = sb.toString();
+            if (!map.containsKey(str)) {
+                map.put(str, new ArrayList<>());
+            }
+            List<String> list = map.get(str);
+            list.add(s);
+        }
+
+        for (String key : map.keySet()) {
+            ans.add(map.get(key));
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
-        List<String> A = Arrays.asList("rat", "tar", "art");
+        /*List<String> A = Arrays.asList("rat", "tar", "art");
         ArrayList<ArrayList<Integer>> arr = anagrams(A);
         for (int i=0;i<arr.size();i++) {
             for (int j=0;j<arr.get(i).size();j++) {
                 System.out.print(arr.get(i).get(j) + " ");
             }
             System.out.println();
-        }
+        }*/
+        String[] strs = {"bdddddddddd","bbbbbbbbbbc"};
+        System.out.println(groupAnagrams(strs));
     }
 }
