@@ -77,13 +77,34 @@ public class RemoveNthNodeFromEnd {
         }
     }
 
+    private static ListNode removeNthFromEnd3(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode first = head;
+        // find the length of the list including the dummy node
+        int length = 0;
+        while (first != null) {
+            length++;
+            first = first.next;
+        }
+        // move to the (L - n)th node and set the next pointer of (L - n)th node
+        // to point to the (L - n + 2)th node
+        length = length - n;
+        first = dummy;
+        for (int i=1; i<=length; i++) {
+            first = first.next;
+        }
+        first.next = first.next.next;
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
         head.next.next.next = new ListNode(4);
         head.next.next.next.next = new ListNode(5);
-        ListNode node = removeNthFromEnd1(head,2);
+        ListNode node = removeNthFromEnd3(head,2);
         printList(node);
     }
 }

@@ -163,6 +163,88 @@ public class ValidSudoku
         return true;
     }
 
+    public boolean isValidSudoku2(char[][] board) {
+        // create a hashset for every row, columns and boxes
+        // there are total 9 boxes
+        Set<Character>[] rows = new HashSet[9];
+        Set<Character>[] cols = new HashSet[9];
+        Set<Character>[] boxes = new HashSet[9];
+
+        for (int i=0; i<9; i++) {
+            rows[i] = new HashSet<>();
+            cols[i] = new HashSet<>();
+            boxes[i] = new HashSet<>();
+        }
+
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++) {
+                char t = board[i][j];
+                if (t == '.') {
+                    continue;
+                }
+                // if the character t is already present in the hash set
+                // then it is a duplicate return false
+                if (rows[i].contains(t)) {
+                    return false;
+                }
+                rows[i].add(t);
+
+                // if the character t is already present in the hash set
+                // then it is a duplicate return false
+                if (cols[j].contains(t)) {
+                    return false;
+                }
+                cols[j].add(t);
+
+                int boxId = (i/3) * 3 + (j/3);
+                // if the character t is already present in the hash set
+                // then it is a duplicate return false
+                if (boxes[boxId].contains(t)) {
+                    return false;
+                }
+                boxes[boxId].add(t);
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidSudoku3(char[][] board) {
+        // create 9 rows, 9 cols and 9 boxes to keep track of the
+        // no.s in each row, each column and each box
+        int[][] row = new int[9][9];
+        int[][] col = new int[9][9];
+        int[][] box = new int[9][9];
+
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++) {
+                char t = board[i][j];
+                if (t == '.') {
+                    continue;
+                }
+                int pos = t - '1';
+                // already seen
+                if (row[i][pos] == 1) {
+                    return false;
+                }
+                row[i][pos] = 1;
+
+                // already seen
+                if (col[j][pos] == 1) {
+                    return false;
+                }
+                col[j][pos] = 1;
+
+                int boxId = (i/3) * 3 + (j/3);
+                // already seen
+                if (box[boxId][pos] == 1) {
+                    return false;
+                }
+                box[boxId][pos] = 1;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args)
     {
         char[][] A = {

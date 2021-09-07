@@ -3,7 +3,7 @@ package queue.practice;
 import java.util.Stack;
 
 /**
- * Enqueue - O(1), Dequeue - O(n) amortized
+ * Enqueue - O(1), Dequeue - O(1) amortized
  */
 public class QueueUsingStackII {
 

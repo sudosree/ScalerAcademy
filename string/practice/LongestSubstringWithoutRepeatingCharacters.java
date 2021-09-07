@@ -60,6 +60,23 @@ public class LongestSubstringWithoutRepeatingCharacters {
         return maxLen;
     }
 
+    public int lengthOfLongestSubstring2(String s) {
+        // keep track of the repeating characters and its indices
+        Map<Character, Integer> map = new HashMap<>();
+        int maxLen = 0, left = 0;
+        for (int right = 0; right <s.length(); right++) {
+            char c = s.charAt(right);
+            // if the character is already present in the map at index j then skip
+            // all the characters from left to j and shift the window to j+1 directly
+            if (map.containsKey(c)) {
+                left = Math.max(left, map.get(c) + 1);
+            }
+            map.put(c, right);
+            maxLen = Math.max(maxLen, right - left + 1);
+        }
+        return maxLen;
+    }
+
     public static void main(String[] args) {
         String s = "pwwkew";
         System.out.println(lengthOfLongestSubstring(s));

@@ -74,6 +74,55 @@ public class RottenOranges {
         return i >= 0 && i < n;
     }
 
+    public int orangesRotting(int[][] grid) {
+        if (grid.length == 0) {
+            return 0;
+        }
+        int m = grid.length, n = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int freshOranges = 0;
+        // first add all the rotten oranges to the queue
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j});
+                } else if (grid[i][j] == 1) {
+                    freshOranges++;
+                }
+            }
+        }
+        // if there are no fresh oranges then return 0
+        if (freshOranges == 0) {
+            return 0;
+        }
+        int[] row = {-1, 0, 0, 1};
+        int[] col = {0, -1, 1, 0};
+        int time = 0;
+        while (!queue.isEmpty()) {
+            time++;
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+                int[] pair = queue.poll();
+                int r = pair[0];
+                int c = pair[1];
+                for (int k=0; k<4; k++) {
+                    int p = r + row[k];
+                    int q = c + col[k];
+                    if (isValid(p, q, m, n) && grid[p][q] == 1) {
+                        grid[p][q] = 2;
+                        queue.offer(new int[]{p, q});
+                        freshOranges--;
+                    }
+                }
+            }
+        }
+        return freshOranges == 0 ? time - 1 : -1;
+    }
+
+    private boolean isValid(int i, int j, int m, int n) {
+        return i >= 0 && i < m && j >= 0 && j < n;
+    }
+
     public static void main(String[] args) {
         int[][] A = {
                 {2,1,1},

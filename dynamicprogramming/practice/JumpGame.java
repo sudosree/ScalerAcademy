@@ -141,4 +141,43 @@ public class JumpGame {
         }
         return leftMostGoodIndex == 0;
     }
+
+    private int[] memo;
+
+    public boolean canJump6(int[] nums) {
+        memo = new int[nums.length];
+        Arrays.fill(memo, -1);
+        return canJumpHelper1(nums, 0);
+    }
+
+    private boolean canJumpHelper1(int[] nums, int i) {
+        if (i == nums.length-1) {
+            return true;
+        }
+        if (memo[i] != -1) {
+            return memo[i] == 1;
+        }
+        // at each index i, the no. of jumps can be made is from 1 to nums[i]
+        for (int jumps=1; jumps<= nums[i]; jumps++) {
+            boolean res = canJumpHelper1(nums, i + jumps);
+            if (res) {
+                memo[i] = 1;
+                return true;
+            }
+        }
+        memo[i] = 0;
+        return false;
+    }
+
+    public boolean canJump7(int[] nums) {
+        int n = nums.length;
+        int lastGoodIndex = n-1;
+        for (int i=n-2; i>=0; i--) {
+            int furthestJump = i + nums[i];
+            if (furthestJump >= lastGoodIndex) {
+                lastGoodIndex = i;
+            }
+        }
+        return lastGoodIndex == 0;
+    }
 }

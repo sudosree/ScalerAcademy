@@ -1,6 +1,8 @@
 package hashmap.homework;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PermutationOfAInB {
 
@@ -55,8 +57,9 @@ public class PermutationOfAInB {
     }
 
     public static void main(String[] args) {
-        String A = "aca";
-        String B = "acaa";
+        String A = "abc";
+        String B = "dfbcafecbdbac";
         System.out.println(findPermutation(A, B));
+
     }
 }

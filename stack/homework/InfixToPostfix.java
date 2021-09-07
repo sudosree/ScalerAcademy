@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class InfixToPostfix {
 
-    public String solve(String A) {
+    public static String solve(String A) {
         StringBuilder sb = new StringBuilder();
         Stack<Character> stack = new Stack<>();
         for (int i=0;i<A.length();i++) {
@@ -35,7 +35,7 @@ public class InfixToPostfix {
         return sb.toString();
     }
 
-    private int prece(char ch) {
+    private static int prece(char ch) {
         switch(ch) {
             case '+':
             case '-':
@@ -47,5 +47,10 @@ public class InfixToPostfix {
                 return 3;
         }
         return -1;
+    }
+
+    public static void main(String[] args) {
+        String s = "a+b*c-d";
+        System.out.println(solve(s));
     }
 }
