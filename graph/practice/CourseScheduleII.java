@@ -52,4 +52,43 @@ public class CourseScheduleII {
         order.push(course);
         return false;
     }
+
+    public int[] findOrder1(int numCourses, int[][] prerequisites) {
+        int[] indegree = new int[numCourses];
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int i=0; i<numCourses; i++) {
+            graph.put(i, new HashSet<>());
+        }
+        for (int i=0; i<prerequisites.length; i++) {
+            int u = prerequisites[i][1];
+            int v = prerequisites[i][0];
+            graph.get(u).add(v);
+            indegree[v]++;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        // add all the courses with indegree 0
+        for (int i=0; i<numCourses; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int[] ans = new int[numCourses];
+        int i=0;
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            ans[i++] = u;
+            Set<Integer> neighbors = graph.get(u);
+            for (int v : neighbors) {
+                indegree[v]--;
+                if (indegree[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+        }
+        // if able to finish all the courses
+        if (i == numCourses) {
+            return ans;
+        }
+        return new int[]{};
+    }
 }

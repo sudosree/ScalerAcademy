@@ -47,7 +47,7 @@ public class BalancedBinaryTree {
     }
 
     /**
-     * TC = O(n^2) (worst case), SC = O(h)
+     * TC = O(n^2) (worst case), SC = O(n)
      */
     public boolean isBalanced1(TreeNode root) {
         if (root == null) {

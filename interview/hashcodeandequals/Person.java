@@ -1,4 +1,4 @@
-package hashcodeandequals;
+package interview.hashcodeandequals;
 
 import java.util.Objects;
 

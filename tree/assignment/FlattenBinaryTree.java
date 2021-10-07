@@ -78,6 +78,39 @@ public class FlattenBinaryTree {
         return rightTail == null ? leftTail : rightTail;
     }
 
+    private static TreeNode flatten2(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.left == null && root.right == null) {
+            return root;
+        }
+
+        TreeNode left = flatten2(root.left);
+        TreeNode right = flatten2(root.right);
+
+        if (left != null) {
+            // find the last node of the flatten left subtree
+            TreeNode lastNode = findRightMostNode(left);
+            lastNode.right = right;
+            root.right = left;
+        }
+        root.left = null;
+        return root;
+    }
+
+    private static TreeNode findRightMostNode(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode node = root;
+        while (node.right != null) {
+            node = node.right;
+        }
+        return node;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
@@ -87,5 +120,6 @@ public class FlattenBinaryTree {
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
         flatten1(root);
+        flatten2(root);
     }
 }

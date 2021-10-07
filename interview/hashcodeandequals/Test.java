@@ -1,4 +1,4 @@
-package hashcodeandequals;
+package interview.hashcodeandequals;
 
 public class Test {
 

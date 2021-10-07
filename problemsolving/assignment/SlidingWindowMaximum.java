@@ -129,6 +129,33 @@ public class SlidingWindowMaximum
         return ans;
     }
 
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n-k+1];
+        Deque<Integer> queue = new LinkedList<>();
+        // add the first k elements in the queue
+        for (int i=0; i<k; i++) {
+            while (!queue.isEmpty() && nums[i] > queue.peekLast()) {
+                queue.pollLast();
+            }
+            queue.offer(nums[i]);
+        }
+        ans[0] = queue.peek();
+        for (int i=1; i<n-k+1; i++) {
+            // if the first element of the queue equals the nums[i-1]
+            // then remove it from the queue
+            if (queue.peek() == nums[i-1]) {
+                queue.poll();
+            }
+            while (!queue.isEmpty() && nums[i+k-1] > queue.peekLast()) {
+                queue.pollLast();
+            }
+            queue.offer(nums[i+k-1]);
+            ans[i] = queue.peek();
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
         int[] A = {7,6,3,4,2,8,5,4};

@@ -44,6 +44,22 @@ public class PeakElement {
         return left;
     }
 
+    public int findPeakElement2(int[] nums) {
+        int left = 0, right = nums.length-1;
+        while (left < right) {
+            int mid = left + (right - left)/2;
+            // decreasing slope so peak will lie in the left side
+            if (nums[mid] > nums[mid+1]) {
+                right = mid;
+            }
+            // increasing slope peak will lie in the right side
+            else {
+                left = mid+1;
+            }
+        }
+        return left;
+    }
+
     public static void main(String[] args) {
         int[] A = {5, 17, 100, 11};
         System.out.println(findPeakElement(A));

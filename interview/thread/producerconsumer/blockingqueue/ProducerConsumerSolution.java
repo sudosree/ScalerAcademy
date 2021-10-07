@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class ProducerConsumerSolution {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(4);
 
         Producer producer = new Producer(queue);

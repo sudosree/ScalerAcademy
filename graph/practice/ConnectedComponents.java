@@ -49,6 +49,60 @@ public class ConnectedComponents {
         }
     }
 
+    int count;
+
+    class UnionFind {
+        private int[] parent;
+        private int[] height;
+
+        UnionFind(int n) {
+            count = n;
+            parent = new int[n];
+            height = new int[n];
+            for (int i=0; i<n; i++) {
+                parent[i] = i;
+                height[i] = 1;
+            }
+        }
+
+        public int find(int x) {
+            if (x == parent[x]) {
+                return x;
+            }
+            return parent[x] = find(parent[x]);
+        }
+
+        public void union(int x, int y) {
+            int rootx = find(x);
+            int rooty = find(y);
+            if (rootx != rooty) {
+                if (height[rootx] > height[rooty]) {
+                    parent[rooty] = rootx;
+                } else if (height[rooty] > height[rootx]) {
+                    parent[rootx] = rooty;
+                } else {
+                    parent[rooty] = rootx;
+                    height[rootx] += 1;
+                }
+                count--;
+            }
+        }
+    }
+
+    /**
+     * TC = O(E), SC = O(V)
+     * @param n
+     * @param edges
+     * @return
+     */
+    public int countComponents(int n, int[][] edges) {
+        UnionFind uf = new UnionFind(n);
+        for (int[] edge : edges) {
+            uf.union(edge[0], edge[1]);
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         int A = 6;
         int[][] B = {

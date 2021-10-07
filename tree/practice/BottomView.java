@@ -96,6 +96,37 @@ public class BottomView {
         return ans;
     }
 
+    private static List<Integer> bottomView2(TreeNode root) {
+        Queue<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(root, 0));
+        Map<Integer, TreeNode> map = new HashMap<>();
+        int minHd = Integer.MAX_VALUE, maxHd = Integer.MIN_VALUE;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+                Pair pair = queue.poll();
+                TreeNode node = pair.node;
+                int hd = pair.hd;
+                map.put(hd, node);
+                minHd = Math.min(minHd, hd);
+                maxHd = Math.max(maxHd, hd);
+                if (node.left != null) {
+                    queue.offer(new Pair(node.left, hd-1));
+                }
+                if (node.right != null) {
+                    queue.offer(new Pair(node.right, hd+1));
+                }
+            }
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for (int i=minHd; i<=maxHd; i++) {
+            ans.add(map.get(i).val);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(20);
         root.left = new TreeNode(8);
@@ -109,5 +140,6 @@ public class BottomView {
 
         System.out.println(bottomView(root));
         System.out.println(bottomView1(root));
+        System.out.println(bottomView2(root));
     }
 }

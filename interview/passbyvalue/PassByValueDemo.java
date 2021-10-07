@@ -13,8 +13,8 @@ public class PassByValueDemo {
     private static void foo(Dog someDog) {
         System.out.println("Inside foo method:");
         System.out.println(someDog.name);   // Max
-//        someDog = new Dog("Tommy");
-        someDog.name = "Tommy";
+        someDog = new Dog("Tommy");
+//        someDog.name = "Tommy";
         System.out.println(someDog.name);   // Tommy
     }
 

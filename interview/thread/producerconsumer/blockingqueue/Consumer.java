@@ -12,14 +12,13 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        int taken = -1;
-        while (taken != 4) {
-            try {
-                taken = queue.take();
-                System.out.println("Consumer consumed: " + taken);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            while (true) {
+                int data = queue.take();
+                System.out.println("Consumer consumed: " + data);
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

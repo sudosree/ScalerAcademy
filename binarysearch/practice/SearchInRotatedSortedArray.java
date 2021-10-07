@@ -3,28 +3,35 @@ package binarysearch.practice;
 public class SearchInRotatedSortedArray {
 
     public static int search(int[] nums, int target) {
-        int p = pivot(nums);
-        // if the array is not rotated
-        if (p == -1) {
-            return search(nums, 0, nums.length-1, target);
+        int n = nums.length;
+        // no rotation
+        if (nums[0] < nums[n-1]) {
+            return search(nums, target, 0, n-1);
         }
+        // find the pivot
+        int p = pivot(nums);
+        // if the target is equal to the pivot
         if (target == nums[p]) {
             return p;
         }
-        // target lies in the 1st half
-        if (target > nums[nums.length-1]) {
-            return search(nums, 0, p, target);
+        if (target == nums[n-1]) {
+            return n-1;
         }
-        return search(nums, p+1, nums.length-1, target);
+        // target lies in the second half
+        if (target < nums[n-1]) {
+            return search(nums, target, p+1, n-1);
+        }
+        // target lies in the first half
+        return search(nums, target, 0, p);
     }
 
-    private static int search(int[] nums, int left, int right, int target) {
+    private static int search(int[] nums, int target, int left, int right) {
         while (left <= right) {
             int mid = left + (right - left)/2;
             if (nums[mid] == target) {
                 return mid;
             }
-            if (target < nums[mid]) {
+            if (nums[mid] > target) {
                 right = mid-1;
             } else {
                 left = mid+1;
@@ -38,14 +45,14 @@ public class SearchInRotatedSortedArray {
         int left = 0, right = n-1;
         while (left <= right) {
             int mid = left + (right - left)/2;
-            if ((mid == 0 || nums[mid] > nums[mid-1]) && (mid == n-1 || nums[mid] > nums[mid+1])) {
+            if ((mid == 0 || nums[mid-1] < nums[mid]) && (mid == n-1 || nums[mid] > nums[mid+1])) {
                 return mid;
             }
-            // pivot lies in the right side
+            // pivot will lie in the right side
             if (nums[mid] > nums[n-1]) {
                 left = mid+1;
             }
-            // pivot lies in the left side
+            // pivot will lie in the left side
             else {
                 right = mid-1;
             }
@@ -87,7 +94,7 @@ public class SearchInRotatedSortedArray {
     }
 
     public static void main(String[] args) {
-        int[] A = {3,5,1};
+        int[] A = {3,1};
         System.out.println(search(A, 1));
     }
 }

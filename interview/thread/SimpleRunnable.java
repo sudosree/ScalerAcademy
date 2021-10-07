@@ -4,6 +4,7 @@ public class SimpleRunnable implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("Current thread: " + Thread.currentThread().getName());
         System.out.println("My interview.thread is in running state");
     }
 

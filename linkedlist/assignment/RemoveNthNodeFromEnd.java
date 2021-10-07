@@ -81,7 +81,7 @@ public class RemoveNthNodeFromEnd {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         ListNode first = head;
-        // find the length of the list including the dummy node
+        // find the length of the list not including the dummy node
         int length = 0;
         while (first != null) {
             length++;

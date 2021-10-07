@@ -66,6 +66,66 @@ public class BipartitieGraph {
         return true;
     }
 
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int[] colors = new int[n];
+        // there are two types of color 0 and 1, 1 for red and 0 for blue
+        // initially all the nodes are marked with -1 i.e. no color
+        Arrays.fill(colors, -1);
+        for (int i=0; i<n; i++) {
+            // not yet visited
+            if (colors[i] == -1) {
+                boolean bipartite = bfs(graph, i, colors);
+                if (!bipartite) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean bfs(int[][] graph, int u, int[] colors) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(u);
+        colors[u] = 1;   // red color
+        while (!queue.isEmpty()) {
+            u = queue.poll();
+            int c = colors[u];
+            int[] neighbors = graph[u];
+            for (int v : neighbors) {
+                // not yet visited
+                if (colors[v] == -1) {
+                    if (c == 1) {
+                        colors[v] = 0;
+                    } else {
+                        colors[v] = 1;
+                    }
+                    queue.offer(v);
+                }
+                // if the colors are same
+                else if (c == colors[v]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs(int[][] graph, int u, int[] colors, int color) {
+        colors[u] = color;
+        int[] neighbors = graph[u];
+        for (int v : neighbors) {
+            if (colors[v] == -1) {
+                if (!dfs(graph, v, colors, colors[u] ^ 1)) {
+                    return false;
+                }
+            } else if (colors[v] == colors[u]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         int A = 4;
         int[][] B = {
