@@ -34,4 +34,44 @@ public class InsertInterval {
         }
         return ans.toArray(new int[ans.size()][]);
     }
+
+    public int[][] insert1(int[][] intervals, int[] newInterval) {
+        int n = intervals.length;
+        if (n == 0) {
+            return new int[][]{newInterval};
+        }
+        List<int[]> res = new ArrayList<>();
+        // first add all the intervals before the new interval
+        int i=0;
+        for (i=0; i<n; i++) {
+            int[] interval = intervals[i];
+            if (interval[1] < newInterval[0]) {
+                res.add(interval);
+            } else {
+                break;
+            }
+        }
+        int j;
+        int start = newInterval[0];
+        int end = newInterval[1];
+        for (j=i; j<n; j++) {
+            int[] interval = intervals[j];
+            // check if there is an overlapp
+            if (start <= interval[1] && end >= interval[0]) {
+                start = Math.min(start, interval[0]);
+                end = Math.max(end, interval[1]);
+            } else {
+                break;
+            }
+        }
+        res.add(new int[]{start, end});
+        for (int k=j; k<n; k++) {
+            res.add(intervals[k]);
+        }
+        int[][] ans = new int[res.size()][2];
+        for (int p=0; p<res.size(); p++) {
+            ans[p] = res.get(p);
+        }
+        return ans;
+    }
 }
