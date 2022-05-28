@@ -80,9 +80,48 @@ public class FindAllAnagrams {
         return res;
     }
 
+    private static List<Integer> findAllAnagrams1(String s, String p) {
+        int m = s.length(), n = p.length();
+        Map<Character, Integer> freq = new HashMap<>();
+        for (int i=0; i<n; i++) {
+            char c = p.charAt(i);
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
+        int count = freq.size();
+        int left = 0, right = 0;
+        List<Integer> ans = new ArrayList<>();
+        while (right < m) {
+            char r = s.charAt(right);
+            if (freq.containsKey(r)) {
+                freq.put(r, freq.get(r) - 1);
+                if (freq.get(r) == 0) {
+                    count--;
+                }
+            }
+            // if the size of the window exceeds the length
+            // of the pattern
+            if (right - left + 1 > n) {
+                char l = s.charAt(left);
+                if (freq.containsKey(l)) {
+                    freq.put(l, freq.get(l) + 1);
+                    if (freq.get(l) > 0) {
+                        count++;
+                    }
+                }
+                left++;
+            }
+            if (count == 0) {
+                ans.add(left);
+            }
+            right++;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-        String s = "cbaebabacd";
+        String s = "abbcabc";
         String t = "abc";
         System.out.println(findAnagrams(s,t));
+        System.out.println(findAllAnagrams1(s, t));
     }
 }

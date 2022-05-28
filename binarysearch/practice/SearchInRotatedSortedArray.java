@@ -73,7 +73,8 @@ public class SearchInRotatedSortedArray {
             if (nums[mid] == target) {
                 return mid;
             }
-            // when nums[mid] is in the 2nd half
+            // when nums[mid] is in the 2nd half and when the
+            // 2nd half is in the increasing sequence
             if (nums[mid] <= nums[right]) {
                 if (target > nums[mid] && target <= nums[right]) {
                     left = mid+1;
@@ -82,6 +83,7 @@ public class SearchInRotatedSortedArray {
                 }
             }
             // when nums[mid] > nums[right] i.e. when nums[mid] is in the first half
+            // and the first half is in the increasing sequence
             else {
                 if (target >= nums[left] && target < nums[mid]) {
                     right = mid-1;

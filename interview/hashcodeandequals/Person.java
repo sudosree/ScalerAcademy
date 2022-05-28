@@ -48,6 +48,10 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, age);
+        int prime = 31, result = 17;
+        result = prime * result + this.age;
+        result = prime * result + (this.firstName != null ? this.firstName.hashCode() : 0);
+        result = prime * result + (this.lastName != null ? this.lastName.hashCode() : 0);
+        return result;
     }
 }

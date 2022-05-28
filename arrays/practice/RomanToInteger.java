@@ -79,4 +79,30 @@ public class RomanToInteger {
         }
         return sum;
     }
+
+    public int romanToInt2(String s) {
+        int n = s.length();
+        char[] ch = s.toCharArray();
+        int i=0;
+        int num = 0;
+        while (i < n) {
+            char c1 = ch[i];
+            int curr = map.get(c1);
+            int next = 0;
+            // check the next character
+            if (i+1 < n) {
+                char c2 = ch[i+1];
+                next = map.get(c2);
+            }
+            // if the first num is < next num
+            if (curr < next) {
+                num += (next - curr);
+                i += 2;
+            } else {
+                num += curr;
+                i++;
+            }
+        }
+        return num;
+    }
 }

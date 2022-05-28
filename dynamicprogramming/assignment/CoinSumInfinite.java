@@ -81,6 +81,23 @@ public class CoinSumInfinite {
         return dp[B];
     }
 
+    public static int coinChange(int[] nums, int target) {
+        return helper(nums, 0, target);
+    }
+
+    private static int helper(int[] nums, int pos, int target) {
+        if (target == 0) {
+            return 1;
+        }
+        int count = 0;
+        for (int i=pos; i<nums.length; i++) {
+            if (nums[i] <= target) {
+                count += helper(nums, i, target-nums[i]);
+            }
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         int[] A = {1,2,3};
         int B = 4;
@@ -88,5 +105,6 @@ public class CoinSumInfinite {
 //        System.out.println(coinchangeM(A,B));
         System.out.println(coinchange(A,B));
         System.out.println(coinchange3(A,B));
+        System.out.println(coinChange(A, B));
     }
 }

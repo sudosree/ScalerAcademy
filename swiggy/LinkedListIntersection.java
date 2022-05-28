@@ -43,4 +43,44 @@ public class LinkedListIntersection {
         }
         return currA;
     }
+
+    public ListNode getIntersectionNodeUsingLen(ListNode headA, ListNode headB) {
+        // if either of them is null then there is no intersection
+        if (headA == null || headB == null) {
+            return null;
+        }
+        // find the length of linked list A
+        int lenA = 0;
+        ListNode currA = headA;
+        while (currA != null) {
+            lenA++;
+            currA = currA.next;
+        }
+        // find the length of linked list B
+        int lenB = 0;
+        ListNode currB = headB;
+        while (currB != null) {
+            lenB++;
+            currB = currB.next;
+        }
+        currA = headA;
+        currB = headB;
+        // skip those many nodes in list A
+        if (lenA > lenB) {
+            for (int i=0; i<lenA-lenB; i++) {
+                currA = currA.next;
+            }
+        }
+        // skip those many nodes in list B
+        else {
+            for (int i=0; i<lenB-lenA; i++) {
+                currB = currB.next;
+            }
+        }
+        while (currA != currB) {
+            currA = currA.next;
+            currB = currB.next;
+        }
+        return currA;
+    }
 }

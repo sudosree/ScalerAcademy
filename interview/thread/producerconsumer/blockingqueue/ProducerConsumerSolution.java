@@ -9,10 +9,11 @@ import java.util.concurrent.BlockingQueue;
 public class ProducerConsumerSolution {
 
     public static void main(String[] args) throws InterruptedException {
-        BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(4);
+        int capacity = 4;
+        BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(capacity);
 
-        Producer producer = new Producer(queue);
-        Consumer consumer = new Consumer(queue);
+        Producer producer = new Producer(queue, capacity);
+        Consumer consumer = new Consumer(queue, capacity);
 
         Thread pThread = new Thread(producer);
         Thread cThread = new Thread(consumer);

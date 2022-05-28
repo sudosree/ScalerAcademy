@@ -2,18 +2,20 @@ package interview.thread.producerconsumer.lockunlock;
 
 public class Producer implements Runnable {
 
-    private ProducerConsumerSharedObject sharedObject;
+    private BlockingQueue sharedObject;
+    private int capacity;
 
-    public Producer(ProducerConsumerSharedObject sharedObject) {
+    public Producer(BlockingQueue sharedObject, int capacity) {
         this.sharedObject = sharedObject;
+        this.capacity = capacity;
     }
 
     @Override
     public void run() {
-        try {
-            sharedObject.put();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        int num = 1;
+        while (num <= capacity) {
+            sharedObject.addData(num);
+            num++;
         }
     }
 }

@@ -1,5 +1,7 @@
 package interview.comparison;
 
+import java.util.Objects;
+
 public class Player {
 
     private int ranking;
@@ -34,5 +36,18 @@ public class Player {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return ranking == player.ranking && age == player.age && Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ranking, name, age);
     }
 }

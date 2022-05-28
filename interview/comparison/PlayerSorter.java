@@ -1,8 +1,6 @@
 package interview.comparison;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class PlayerSorter {
 
@@ -20,5 +18,13 @@ public class PlayerSorter {
         PlayerRankingComparator rankingComparator = new PlayerRankingComparator();
         Collections.sort(footballTeam, rankingComparator);
         System.out.println("After Sorting : " + footballTeam);
+
+        Player player4 = new Player(59, "John", 20);
+        System.out.println(player1.equals(player4));
+
+        Map<Player, String> map = new HashMap<>();
+        map.put(player1, "Walmart");
+        player1.setName("Charlie");
+        System.out.println(map.get(player1));
     }
 }

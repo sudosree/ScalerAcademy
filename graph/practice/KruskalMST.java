@@ -24,9 +24,12 @@ public class KruskalMST {
         return parent[x];
     }
 
-    private static void union(int x, int y) {
+    private static boolean union(int x, int y) {
         int u = find(x);
         int v = find(y);
+        if (u == v) {
+            return false;
+        }
         if (size[u] < size[v]) {
             parent[u] = v;
             size[v] += size[u];
@@ -37,6 +40,7 @@ public class KruskalMST {
             parent[u] = v;
             size[v] += size[u];
         }
+        return true;
     }
 
     static class Edge {

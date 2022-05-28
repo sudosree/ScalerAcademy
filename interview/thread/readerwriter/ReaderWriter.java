@@ -38,7 +38,6 @@ public class ReaderWriter {
         synchronized (this) {
             resourceCounter = 0;
             notifyAll();
-            notify();
             System.out.println(Thread.currentThread().getName() + " finished writing");
         }
     }
@@ -55,7 +54,7 @@ public class ReaderWriter {
                     e.printStackTrace();
                 }
             }
-        });
+        }, "ReadThread1");
 
         Thread reader2 = new Thread(new Runnable() {
             @Override
@@ -66,7 +65,18 @@ public class ReaderWriter {
                     e.printStackTrace();
                 }
             }
-        });
+        }, "ReadThread2");
+
+        Thread reader3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    rw.read();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "ReadThread3");
 
         Thread writer = new Thread(new Runnable() {
             @Override
@@ -77,10 +87,11 @@ public class ReaderWriter {
                     e.printStackTrace();
                 }
             }
-        });
+        }, "WriteThread1");
 
         reader1.start();
         reader2.start();
+        reader3.start();
         writer.start();
     }
 }

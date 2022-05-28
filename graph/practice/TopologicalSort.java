@@ -12,7 +12,7 @@ public class TopologicalSort {
      */
     private static List<Integer> findTopologicalSortUsingIndegree(int A, int[][] B) {
         Map<Integer, Set<Integer>> graph = new HashMap<>();
-        for (int i=1;i<=A;i++) {
+        for (int i=0;i<A;i++) {
             graph.put(i, new HashSet<>());
         }
         for (int i=0;i<B.length;i++) {
@@ -20,7 +20,7 @@ public class TopologicalSort {
             int v = B[i][1];
             graph.get(u).add(v);
         }
-        int[] indegree = new int[A+1];
+        int[] indegree = new int[A];
         // find the indegree of all vertices
         for (int u : graph.keySet()) {
             Set<Integer> neighbors = graph.get(u);
@@ -30,7 +30,7 @@ public class TopologicalSort {
         }
         Queue<Integer> queue = new LinkedList<>();
         // add all the vertices with indegree 0 to the queue
-        for (int i=1;i<A+1;i++) {
+        for (int i=0;i<A;i++) {
             if (indegree[i] == 0) {
                 queue.offer(i);
             }
@@ -58,7 +58,7 @@ public class TopologicalSort {
      */
     private static List<Integer> topologicalSortUsingDFS(int A, int[][] B) {
         Map<Integer, Set<Integer>> graph = new HashMap<>();
-        for (int i=1;i<=A;i++) {
+        for (int i=0;i<A;i++) {
             graph.put(i, new HashSet<>());
         }
         for (int i=0;i<B.length;i++) {
@@ -68,7 +68,7 @@ public class TopologicalSort {
         }
         boolean[] visited = new boolean[A+1];
         Stack<Integer> stack = new Stack<>();
-        for (int i=1;i<=A;i++) {
+        for (int i=0;i<A;i++) {
             if (!visited[i]) {
                 dfs(i, graph, visited, stack);
             }
@@ -91,17 +91,54 @@ public class TopologicalSort {
         stack.push(u);
     }
 
+    private static List<Integer> topologicalSort(int[][] nums, int n) {
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        // no. of vertices
+        for (int i=0; i<n; i++) {
+            graph.put(i, new HashSet<>());
+        }
+        for (int i=0; i<nums.length; i++) {
+            int u = nums[i][0];
+            int v = nums[i][1];
+            graph.get(u).add(v);
+        }
+        boolean[] visited = new boolean[n];
+        Stack<Integer> stack = new Stack<>();
+        for (int i=0; i<n; i++) {
+            if (!visited[i]) {
+                dfs(graph, i, visited, stack);
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        while (!stack.isEmpty()) {
+            ans.add(stack.pop());
+        }
+        return ans;
+    }
+
+    private static void dfs(Map<Integer, Set<Integer>> graph, int u, boolean[] visited, Stack<Integer> stack) {
+        visited[u] = true;
+        Set<Integer> neighbors = graph.get(u);
+        for (int v : neighbors) {
+            if (!visited[v]) {
+                dfs(graph, v, visited, stack);
+            }
+        }
+        stack.push(u);
+    }
+
     public static void main(String[] args) {
         int A = 6;
         int[][] B = {
-                {1,2},
-                {1,4},
+                {5,0},
+                {5,2},
+                {4,0},
+                {4,1},
                 {2,3},
-                {4,5},
-                {3,6},
-                {5,6},
+                {3,1},
         };
         System.out.println(findTopologicalSortUsingIndegree(A, B));
         System.out.println(topologicalSortUsingDFS(A, B));
+        System.out.println(topologicalSort(B, A));
     }
 }

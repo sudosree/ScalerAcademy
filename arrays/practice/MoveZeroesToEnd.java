@@ -45,4 +45,19 @@ public class MoveZeroesToEnd {
             right++;
         }
     }
+
+    public void moveZeroes2(int[] nums) {
+        int n = nums.length;
+        int lastSeenNonZero = -1, i = 0;
+        while (i < n) {
+            if (nums[i] != 0) {
+                lastSeenNonZero++;
+                // swap nums[lastSeenNonZero] and nums[i]
+                int t = nums[lastSeenNonZero];
+                nums[lastSeenNonZero] = nums[i];
+                nums[i] = t;
+            }
+            i++;
+        }
+    }
 }
