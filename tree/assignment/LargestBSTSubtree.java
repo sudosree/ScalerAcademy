@@ -54,6 +54,60 @@ public class LargestBSTSubtree {
             this.max = max;
         }
     }
+
+    class TreeNodeInfo {
+        boolean isBST;  // subtree is BST or not
+        int maxNode;    // max node in the subtree
+        int minNode;    // min node in the subtree
+        int maxSize;    // max BST size seen so far in the subtree
+
+        public TreeNodeInfo(boolean isBST, int maxNode, int minNode, int maxSize) {
+            this.isBST = isBST;
+            this.maxNode = maxNode;
+            this.minNode = minNode;
+            this.maxSize = maxSize;
+        }
+    }
+
+    public int largestBSTSubtree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return largestBSTSubtreeHelper(root).maxSize;
+    }
+
+    private TreeNodeInfo largestBSTSubtreeHelper(TreeNode root) {
+        // if the node is empty then it's a valid BST
+        if (root == null) {
+            return new TreeNodeInfo(true, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        }
+        TreeNodeInfo left = largestBSTSubtreeHelper(root.left);
+        TreeNodeInfo right = largestBSTSubtreeHelper(root.right);
+
+        // if both the left and right subtrees are valid BSTs then check if the tree
+        // rooted at the current node is valid BST or not
+        if (left.isBST && right.isBST) {
+            // current node's val should be greater than the max val in the left subtree and
+            // current node's val should be smaller than the min val in the right subtree
+            // then tree at the current node is a valid BST
+            if (root.val > left.maxNode && root.val < right.minNode) {
+                return new TreeNodeInfo(true, Math.max(root.val, right.maxNode), Math.min(root.val, left.minNode), 1 + left.maxSize + right.maxSize);
+            }
+            // tree at the current node is not a BST
+            return new TreeNodeInfo(false, Integer.MAX_VALUE, Integer.MIN_VALUE, Math.max(left.maxSize, right.maxSize));
+        }
+
+        // if either of the subtree is a valid BST then the tree at the current node
+        // is not a valid BST
+        if (left.isBST || right.isBST) {
+            return new TreeNodeInfo(false, Integer.MAX_VALUE, Integer.MIN_VALUE, Math.max(left.maxSize, right.maxSize));
+        }
+
+        // if both the subtrees are not valid BSTs then the tree at the current node
+        // is not a valid BST
+        return new TreeNodeInfo(false, Integer.MAX_VALUE, Integer.MIN_VALUE, Math.max(left.maxSize, right.maxSize));
+    }
+
     public static int solve1(TreeNode A) {
         return largestBSTHelper(A).size;
     }

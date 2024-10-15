@@ -60,7 +60,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
         return maxLen;
     }
 
-    public int lengthOfLongestSubstring2(String s) {
+    public static int lengthOfLongestSubstring2(String s) {
         // keep track of the repeating characters and its indices
         Map<Character, Integer> map = new HashMap<>();
         int maxLen = 0, left = 0;
@@ -78,8 +78,9 @@ public class LongestSubstringWithoutRepeatingCharacters {
     }
 
     public static void main(String[] args) {
-        String s = "pwwkew";
+        String s = "abcdeafbdgcbb";
         System.out.println(lengthOfLongestSubstring(s));
         System.out.println(lengthOfLongestSubstring1(s));
+        System.out.println(lengthOfLongestSubstring2(s));
     }
 }

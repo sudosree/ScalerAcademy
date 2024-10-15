@@ -1,5 +1,6 @@
 package tree.assignment;
 
+import javafx.util.Pair;
 import tree.TreeNode;
 
 import java.util.LinkedList;
@@ -52,7 +53,7 @@ public class PathSum {
         return hasPathSum(root.left, targetSum-root.val) || hasPathSum(root.right, targetSum-root.val);
     }
 
-    static class Pair {
+    /*static class Pair {
         TreeNode node;
         int sum;
 
@@ -60,18 +61,18 @@ public class PathSum {
             this.node = node;
             this.sum = sum;
         }
-    }
+    }*/
 
     public boolean hasPathSum3(TreeNode root, int targetSum) {
         if (root == null) {
             return false;
         }
-        Queue<Pair> queue = new LinkedList<>();
+        Queue<Pair<TreeNode, Integer>> queue = new LinkedList<>();
         queue.offer(new Pair(root, targetSum - root.val));
         while (!queue.isEmpty()) {
-            Pair p = queue.poll();
-            TreeNode node = p.node;
-            int remSum = p.sum;
+            Pair<TreeNode, Integer> p = queue.poll();
+            TreeNode node = p.getKey();
+            int remSum = p.getValue();
 
             // leaf node and sum is zero
             if (node.left == null && node.right == null && remSum == 0) {
@@ -83,6 +84,33 @@ public class PathSum {
             }
             if (node.right != null) {
                 queue.offer(new Pair(node.right, remSum - node.right.val));
+            }
+        }
+        return false;
+    }
+
+    public boolean hasPathSum4(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        Stack<Pair<TreeNode, Integer>> stack = new Stack<>();
+        TreeNode curr = root;
+        while (curr != null || !stack.empty()) {
+            // add all the left nodes starting from the root node to the stack
+            while (curr != null) {
+                stack.push(new Pair<>(curr, targetSum));
+                targetSum -= curr.val;
+                curr = curr.left;
+            }
+            Pair<TreeNode, Integer> pair = stack.pop();
+            TreeNode node = pair.getKey();
+            int sum = pair.getValue();
+            if (node.left == null && node.right == null && sum == node.val) {
+                return true;
+            }
+            if (node.right != null) {
+                curr = node.right;
+                targetSum = sum - node.val;
             }
         }
         return false;

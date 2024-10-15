@@ -52,6 +52,28 @@ public class SumBinaryTree {
         return new TreeNodeInfo(-1, false);
     }
 
+    private TreeNodeInfo isSumBinaryTreeHelper1(TreeNode root) {
+        // empty tree is a sum binary tree
+        if (root == null) {
+            return new TreeNodeInfo(0, true);
+        }
+        // leaf node is a sum binary tree
+        if (root.left == null && root.right == null) {
+            return new TreeNodeInfo(root.val, true);
+        }
+        TreeNodeInfo left = isSumBinaryTreeHelper1(root.left);
+        TreeNodeInfo right = isSumBinaryTreeHelper1(root.right);
+        // if both the left and right subtrees are sum binary tree then check
+        // if the current node satisfies the sum binary tree property or not
+        if (left.isSumBinaryTree && right.isSumBinaryTree) {
+            if (root.val == left.sum + right.sum) {
+                return new TreeNodeInfo(root.val + left.sum + right.sum, true);
+            }
+            return new TreeNodeInfo(0, false);
+        }
+        return new TreeNodeInfo(0, false);
+    }
+
     static class TreeNodeInfo {
 
         int sum;

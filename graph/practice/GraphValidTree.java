@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class GraphValidTree {
 
@@ -110,5 +111,66 @@ public class GraphValidTree {
         }
         // no cycle present
         return false;
+    }
+
+    private boolean hasCycle(int node, int parent, Set<Integer> visited, Map<Integer, Set<Integer>> graph) {
+
+        // visit the node
+        visited.add(node);
+
+        // if the node u is already visited and the parent of u is not equal to v
+        // then node u has already been reached before by some other node and that node
+        // is the parent node of node u
+        Set<Integer> neighbors = graph.get(node);
+        for (int neighbor : neighbors) {
+            // if the neighbor is already visited and it's not the parent
+            // of the current node then there is a cycle
+            if (visited.contains(neighbor) && neighbor != parent) {
+                return true;
+            }
+            if (!visited.contains(neighbor)) {
+                if (hasCycle(neighbor, node, visited, graph)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean validTree2(int n, int[][] edges) {
+        int m = edges.length;
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int i=0; i<n; i++) {
+            graph.put(i, new HashSet<>());
+        }
+        for (int i=0; i<m; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+        Set<Integer> visited = new HashSet<>();
+        Map<Integer, Integer> parent = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        parent.put(0,-1);
+        visited.add(0);
+
+        while (!stack.empty()) {
+            int node = stack.pop();
+            Set<Integer> neighbors = graph.get(node);
+            for (int neighbor : neighbors) {
+                // there is a cycle, so it cannot be a valid tree
+                if (visited.contains(neighbor) && parent.get(node) != neighbor) {
+                    return false;
+                }
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    parent.put(neighbor, node);
+                    stack.push(neighbor);
+                }
+            }
+        }
+        return visited.size() == n;
     }
 }

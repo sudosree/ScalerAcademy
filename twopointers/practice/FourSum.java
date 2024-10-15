@@ -65,6 +65,13 @@ public class FourSum {
         if (start == n) {
             return res;
         }
+        // k remaining values to add to the sum and the avg of these values
+        // is at least k
+        long avgVal = target/k;
+        // if the smallest value is > target/k or if the largest value is < target/k
+        if (nums[start] > avgVal || nums[nums.length-1] < avgVal) {
+            return res;
+        }
         if (k == 2) {
             return twoSum(nums, start, target);
         }
@@ -102,8 +109,9 @@ public class FourSum {
 
 
     public static void main(String[] args) {
-        int[] nums = {1,0,-1,0,-2,2};
-        int target = 0;
+//        int[] nums = {1,0,-1,0,-2,2};
+        int[] nums = {-1000000000,-1000000000,1000000000,-1000000000,-1000000000};
+        int target = 294967296;
         System.out.println(fourSum1(nums, target));
     }
 }

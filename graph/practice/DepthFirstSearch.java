@@ -54,6 +54,34 @@ public class DepthFirstSearch {
         }
     }
 
+    public static void dfs1(List<List<String>> edges, String start) {
+        Map<String, Set<String>> graph = new HashMap<>();
+        for (List<String> edge : edges) {
+            String u = edge.get(0);
+            String v = edge.get(1);
+            if (!graph.containsKey(u)) {
+                graph.put(u, new HashSet<>());
+            }
+            graph.get(u).add(v);
+        }
+        Set<String> visited = new HashSet<>();
+        dfsR(graph, visited, start);
+    }
+
+    private static void dfsR(Map<String, Set<String>> graph, Set<String> visited, String u) {
+        // visit the node
+        visited.add(u);
+        System.out.print(u + " ");
+        // visit it's neighbors
+        Set<String> neighbors = graph.get(u);
+        for (String v : neighbors) {
+            // if the node is not visited then visit it
+            if (!visited.contains(v)) {
+                dfsR(graph, visited, v);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int vertices = 5;
         int[][] A = {
@@ -63,5 +91,27 @@ public class DepthFirstSearch {
                 {2,5}
         };
         dfs(vertices, A);
+
+        List<List<String>> edges = Arrays.asList(
+            Arrays.asList("A", "B"),
+            Arrays.asList("A", "D"),
+            Arrays.asList("A", "C"),
+            Arrays.asList("B", "A"),
+            Arrays.asList("B", "E"),
+            Arrays.asList("B", "F"),
+            Arrays.asList("F", "B"),
+            Arrays.asList("F", "E"),
+            Arrays.asList("E", "F"),
+            Arrays.asList("E", "B"),
+            Arrays.asList("E", "D"),
+            Arrays.asList("E", "C"),
+            Arrays.asList("C", "A"),
+            Arrays.asList("C", "E"),
+            Arrays.asList("D", "A"),
+            Arrays.asList("D", "E")
+        );
+
+        dfs1(edges, "A");
+
     }
 }

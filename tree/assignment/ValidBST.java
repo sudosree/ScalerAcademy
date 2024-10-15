@@ -48,6 +48,40 @@ public class ValidBST {
         return true;
     }
 
+    public boolean isValidBST2(TreeNode root) {
+        // empty trees are valid BSTs
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<Integer> low = new Stack<>();
+        Stack<Integer> high = new Stack<>();
+
+        stack.push(root);
+        low.push(null);
+        high.push(null);
+
+        while (!stack.empty()) {
+            TreeNode node = stack.pop();
+            Integer left = low.pop();
+            Integer right = high.pop();
+            if (left != null && node.val <= left || right != null && node.val >= right) {
+                return false;
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+                low.push(left);
+                high.push(node.val);
+            }
+            if (node.right != null) {
+                stack.push(node.right);
+                low.push(node.val);
+                high.push(right);
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(11);
         root.left = new TreeNode(3);

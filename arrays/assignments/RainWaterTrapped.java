@@ -167,6 +167,26 @@ public class RainWaterTrapped
         return total_water_trapped;
     }
 
+    public static int trap4(int[] height) {
+        int totalWaterTrapped = 0;
+        int n = height.length;
+        // for each building find the max building on the left side and the right side
+        // and subtract the height of the current building from the minimum among the left
+        // and right max buildings
+        for (int i=1; i<n-1; i++) {
+            int leftMax = 0;
+            for (int j=0; j<=i; j++) {
+                leftMax = Math.max(leftMax, height[j]);
+            }
+            int rightMax = 0;
+            for (int j=n-1; j>=i; j--) {
+                rightMax = Math.max(rightMax, height[j]);
+            }
+            totalWaterTrapped += Math.min(leftMax, rightMax) - height[i];
+        }
+        return totalWaterTrapped;
+    }
+
     public static void main(String[] args)
     {
         int[] A = {};

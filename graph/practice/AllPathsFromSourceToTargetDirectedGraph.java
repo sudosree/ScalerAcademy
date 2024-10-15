@@ -2,7 +2,7 @@ package graph.practice;
 
 import java.util.*;
 
-public class AllPathsFromSourceToTarget {
+public class AllPathsFromSourceToTargetDirectedGraph {
 
     public static List<List<Integer>> allPathsSourceTarget(int[][] graph) {
         List<List<Integer>> ans = new ArrayList<>();

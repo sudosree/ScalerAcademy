@@ -2,187 +2,123 @@ package heap;
 
 public class MaxHeap {
 
-    private int[] heap;
-    private int size;
-    private int maxSize;
+  private int[] maxHeap;
+  private int size;
+  private int maxSize;
 
-    public MaxHeap(int n) {
-        this.heap = new int[n];
-        this.size = 0;
-        this.maxSize = n;
+  public MaxHeap(int maxSize) {
+    this.maxSize = maxSize;
+    this.maxHeap = new int[maxSize+1];
+    this.size = 0;
+    maxHeap[0] = 0;
+  }
+
+  public int parent(int i) {
+    return i/2;
+  }
+
+  public int leftChild(int i) {
+    return 2*i;
+  }
+
+  public int rightChild(int i) {
+    return 2*i+1;
+  }
+
+  public boolean isLeaf(int i) {
+    return i>size/2;
+  }
+
+  // TC - O(logn)
+  public void add(int element) {
+    if (size > maxSize) {
+      System.out.println("Size is full");
+      return;
     }
+    size++;
+    // insert element at the leaf
+    maxHeap[size] = element;
+    percolateUp(size);
+  }
 
-    public boolean isLeaf(int i) {
-        return (i >= size/2 && i < size);
+  private void percolateUp(int i) {
+    int p = parent(i);
+    // if the child node is greater than the parent node
+    // then keep on swapping the child node with the parent node
+    while (i > 1 && maxHeap[i] > maxHeap[p]) {
+      int temp = maxHeap[i];
+      maxHeap[i] = maxHeap[p];
+      maxHeap[p] = temp;
+      i = p;
+      p = parent(i);
     }
+  }
 
-    public int parent(int i) {
-        return Math.floorDiv(i-1, 2);
+  public int pop() {
+    if (size < 1) {
+      System.out.println("Heap is empty");
+      return Integer.MIN_VALUE;
     }
+    int removeElement = maxHeap[1];
+    maxHeap[1] = maxHeap[size];
+    maxHeap[size] = removeElement;
+    size--;
+    percolateDown(1, size);
+    return removeElement;
+  }
 
-    public int leftChild(int i) {
-        return 2*i+1;
+  public int peek() {
+    return maxHeap[1];
+  }
+
+  public int getSize() {
+    return size;
+  }
+
+  private void percolateDown(int i, int size) {
+    // check for non-leaf nodes
+    while (i <= size/2) {
+      int left = leftChild(i);
+      int right = rightChild(i);
+      int largest = i;
+      if (left < size+1 && maxHeap[i] < maxHeap[left]) {
+        largest = left;
+      }
+      if (right < size+1 && maxHeap[largest] < maxHeap[right]) {
+        largest = right;
+      }
+      if (largest != i) {
+        int temp = maxHeap[i];
+        maxHeap[i] = maxHeap[largest];
+        maxHeap[largest] = temp;
+        i = largest;
+      } else {
+        break;
+      }
     }
+  }
 
-    public int rightChild(int i) {
-        return 2*i+2;
+  public static void main(String[] args) {
+    MaxHeap maxHeap1 = new MaxHeap(5);
+    maxHeap1.add(1);
+    maxHeap1.add(2);
+    maxHeap1.add(3);
+    System.out.println("Size: " + maxHeap1.getSize());
+    for (int i=1;i< maxHeap1.size+1;i++) {
+      System.out.print(maxHeap1.maxHeap[i] + " ");
     }
-
-    /**
-     * Iterative approach
-     * TC = O(logn), SC = O(logn)
-     */
-    public void percolateDown(int[] arr, int i, int n) {
-        // for non-leaf nodes
-        while (i <= n/2 -1) {
-            int left = leftChild(i);
-            int right = rightChild(i);
-            int greatest = i;
-
-            if (left < n && arr[left] > arr[i]) {
-                greatest = left;
-            }
-            if (right < n && arr[right] > arr[greatest]) {
-                greatest = right;
-            }
-            if (greatest != i) {
-                int temp = arr[i];
-                arr[i] = arr[greatest];
-                arr[greatest] = temp;
-                i = greatest;
-            } else {
-                break;
-            }
-        }
+    System.out.println("Peek: " + maxHeap1.peek());
+    // 3
+    System.out.println(maxHeap1.pop());
+    System.out.println(maxHeap1.pop());
+    System.out.println(maxHeap1.pop());
+    System.out.println("Size: " + maxHeap1.getSize());
+    maxHeap1.add(4);
+    maxHeap1.add(5);
+    System.out.println("Size: " + maxHeap1.getSize());
+    for (int i=1;i< maxHeap1.size+1;i++) {
+      System.out.print(maxHeap1.maxHeap[i] + " ");
     }
+  }
 
-    /**
-     * TC = O(logn), SC = O(logn)
-     */
-    public void percolateDownR(int[] arr, int i, int n) {
-        if (isLeaf(i)) {
-            return;
-        }
-        int left = leftChild(i);
-        int right = rightChild(i);
-        int greatest = i;
-        if (left < n && arr[left] > arr[i]) {
-            greatest = left;
-        }
-        if (right < n && arr[right] > arr[greatest]) {
-            greatest = right;
-        }
-        if (greatest != i) {
-            int temp = arr[i];
-            arr[i] = arr[greatest];
-            arr[greatest] = temp;
-            percolateDownR(arr, greatest, n);
-        }
-    }
-
-    /**
-     * TC = O(logn), SC = O(logn)
-     */
-    public void percolateUp() {
-        int parent = parent(size);
-        int i = size;
-        while (i > 0 && heap[i] > heap[parent]) {
-            int temp = heap[i];
-            heap[i] = heap[parent];
-            heap[parent] = temp;
-            i = parent;
-            parent = parent(i);
-        }
-    }
-
-    /**
-     * TC = O(logn)
-     */
-    public void insert(int element) {
-        if (size == maxSize) {
-            System.out.println("Cannot insert " + element + " . Size is full.");
-            return;
-        }
-        // insert element at the leaf
-        heap[size] = element;
-        percolateUp();
-        size++;
-    }
-
-    /**
-     * TC = O(n)
-     */
-    public void buildHeapDown(int[] arr) {
-        int n = arr.length;
-        // for non leaf nodes
-        for (int i=n/2-1;i>=0;i--) {
-            percolateDownR(arr, i, n);
-        }
-    }
-
-    /**
-     * TC = O(nlogn), SC = O(n) (creating heap)
-     */
-    public void buildHeapUp(int[] arr) {
-        int n = arr.length;
-        for (int i=0;i<n;i++) {
-            insert(arr[i]);
-        }
-    }
-
-    /**
-     * TC = O(logn)
-     */
-    public int extractMax() {
-        int temp = heap[0];
-        heap[0] = heap[size-1];
-        heap[size-1] = temp;
-        size--;
-        percolateDown(heap, 0, size);
-        return temp;
-    }
-
-    public static void main(String[] args) {
-        int[] A = {16,4,10,14,7,9,3,2,8,1};
-        MaxHeap maxHeap = new MaxHeap(A.length);
-        maxHeap.buildHeapDown(A);
-        System.out.println("Build max heap using Percolate Down");
-        for (int i=0;i<A.length;i++) {
-            System.out.print(A[i] + " ");
-        }
-        System.out.println();
-
-        System.out.println("Build max heap using Percolate Up");
-        maxHeap.buildHeapUp(A);
-        for (int i=0;i< maxHeap.size;i++) {
-            System.out.print(maxHeap.heap[i] + " ");
-        }
-        System.out.println();
-
-        System.out.println("Extract Max");
-        maxHeap.extractMax();
-        for (int i=0;i< maxHeap.size;i++) {
-            System.out.print(maxHeap.heap[i] + " ");
-        }
-        System.out.println();
-
-        MaxHeap maxHeap1 = new MaxHeap(11);
-        maxHeap1.insert(10);
-        maxHeap1.insert(9);
-        maxHeap1.insert(8);
-        maxHeap1.insert(5);
-        maxHeap1.insert(4);
-        maxHeap1.insert(7);
-        maxHeap1.insert(6);
-        maxHeap1.insert(3);
-        maxHeap1.insert(2);
-        maxHeap1.insert(1);
-        maxHeap1.insert(200);
-        maxHeap1.insert(300);
-
-        for (int i=0;i< maxHeap1.size;i++) {
-            System.out.print(maxHeap1.heap[i] + " ");
-        }
-        System.out.println();
-    }
 }

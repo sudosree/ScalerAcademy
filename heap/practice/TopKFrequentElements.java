@@ -81,11 +81,40 @@ public class TopKFrequentElements {
         }
     }
 
+    public static int[] topKFrequent3(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        // store the list of elements with their frequency
+        // key -> value : count -> []
+        TreeMap<Integer, List<Integer>> freq = new TreeMap<>(Collections.reverseOrder());
+        for (int key : map.keySet()) {
+            int count = map.get(key);
+            if (!freq.containsKey(count)) {
+                freq.put(count, new ArrayList<>());
+            }
+            freq.get(count).add(key);
+        }
+        List<Integer> ans = new ArrayList<>();
+        while (k > 0) {
+            Map.Entry<Integer, List<Integer>> entry = freq.pollFirstEntry();
+            if (entry != null) {
+                ans.addAll(entry.getValue());
+            }
+            k--;
+        }
+        return ans.stream().mapToInt(i->i).toArray();
+    }
+
     public static void main(String[] args) {
-        int[] nums = {2,2,2,3,3,4,1,1,1,1};
-        int k = 3;
+//        int[] nums = {2,2,2,3,3,4,1,1,1,1};
+//        int k = 3;
+        int[] nums = {1,2};
+        int k = 2;
         System.out.println(Arrays.toString(topKFrequent(nums, k)));
         System.out.println(Arrays.toString(topKFrequent1(nums, k)));
         System.out.println(Arrays.toString(topKFrequent2(nums, k)));
+        System.out.println(Arrays.toString(topKFrequent3(nums, k)));
     }
 }

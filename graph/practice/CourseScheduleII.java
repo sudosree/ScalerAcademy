@@ -53,6 +53,26 @@ public class CourseScheduleII {
         return false;
     }
 
+    private boolean hasCycle(int u, boolean[] visited, boolean[] recStack, Map<Integer, Set<Integer>> graph, Stack<Integer> topologicalOrder) {
+        if (recStack[u]) {
+            return true;
+        }
+        if (visited[u]) {
+            return false;
+        }
+        visited[u] = true;
+        recStack[u] = true;
+        Set<Integer> neighbors = graph.get(u);
+        for (int v : neighbors) {
+            if (hasCycle(v, visited, recStack, graph, topologicalOrder)) {
+                return true;
+            }
+        }
+        recStack[u] = false;
+        topologicalOrder.push(u);
+        return false;
+    }
+
     public int[] findOrder1(int numCourses, int[][] prerequisites) {
         int[] indegree = new int[numCourses];
         Map<Integer, Set<Integer>> graph = new HashMap<>();

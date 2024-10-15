@@ -65,6 +65,49 @@ public class TopKFrequentWords {
         return ans;
     }
 
+    public List<String> topKFrequent2(String[] words, int k) {
+        for (String word : words) {
+            freq.put(word, freq.getOrDefault(word, 0) + 1);
+        }
+        Queue<String> minHeap = new PriorityQueue<>(new MyComparator());
+        for (String word : freq.keySet()) {
+            minHeap.offer(word);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+        List<String> ans = new ArrayList<>();
+        while (k > 0) {
+            ans.add(minHeap.poll());
+            k--;
+        }
+        Collections.reverse(ans);
+        return ans;
+    }
+
+    public List<String> topKFrequent4(String[] words, int k) {
+        Map<String, Integer> freq = new HashMap<>();
+        for (String word : words) {
+            freq.put(word, freq.getOrDefault(word, 0) + 1);
+        }
+        Queue<String> minHeap = new PriorityQueue<>(
+            (word1, word2) -> freq.get(word1).equals(freq.get(word2)) ? word2.compareTo(word1) :
+                freq.get(word1) - freq.get(word2)
+        );
+        for (String word : freq.keySet()) {
+            minHeap.offer(word);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+        List<String> ans = new ArrayList<>();
+        while (!minHeap.isEmpty()) {
+            ans.add(minHeap.poll());
+        }
+        Collections.reverse(ans);
+        return ans;
+    }
+
     class MyComparator1 implements Comparator<String> {
         @Override
         public int compare(String a, String b) {

@@ -80,4 +80,117 @@ public class PartitionEqualSubsetSum {
         }
         return dp[targetSum];
     }
+
+    public boolean canPartition3(int[] nums) {
+        int totalSum = 0;
+        for (int i=0; i<nums.length; i++) {
+            totalSum += nums[i];
+        }
+        // if the totalSum is not divisible by 2 then return false as it cannot form
+        // equal subset sum
+        if (totalSum % 2 != 0) {
+            return false;
+        }
+        int subsetSum = totalSum / 2;
+        Boolean[][] memo = new Boolean[nums.length+1][subsetSum+1];
+        return canPartitionHelper(0, subsetSum, nums, memo);
+    }
+
+    private boolean canPartitionHelper(int index, int sum, int[] nums, Boolean[][] memo) {
+        // if the sum is equal to 0 then return true
+        if (sum == 0) {
+            return true;
+        }
+        // if the sum is negative or there are no elements left
+        if (sum < 0 || index == nums.length) {
+            return false;
+        }
+        if (memo[index][sum] != null) {
+            return memo[index][sum];
+        }
+        memo[index][sum] = canPartitionHelper(index+1, sum - nums[index], nums, memo) || canPartitionHelper(index+1, sum, nums, memo);
+        return memo[index][sum];
+    }
+
+    public boolean canPartition4(int[] nums) {
+        int totalSum = 0;
+        for (int i=0; i<nums.length; i++) {
+            totalSum += nums[i];
+        }
+        // if the totalSum is not divisible by 2 then return false as it cannot form
+        // equal subset sum
+        if (totalSum % 2 != 0) {
+            return false;
+        }
+        int n = nums.length;
+        int subsetSum = totalSum / 2;
+        boolean[][] dp = new boolean[n+1][subsetSum+1];
+        // for sum 0 set dp[i][0] = true
+        for (int i=0; i<n+1; i++) {
+            dp[i][0] = true;
+        }
+        for (int i=n-1; i>=0; i--) {
+            for (int j=0; j<subsetSum+1; j++) {
+                if (nums[i] <= j) {
+                    dp[i][j] = dp[i+1][j - nums[i]] || dp[i+1][j];
+                } else {
+                    dp[i][j] = dp[i+1][j];
+                }
+            }
+        }
+        return dp[0][subsetSum];
+    }
+
+    public boolean canPartition5(int[] nums) {
+        int totalSum = 0;
+        for (int i=0; i<nums.length; i++) {
+            totalSum += nums[i];
+        }
+        // if the totalSum is not divisible by 2 then return false as it cannot form
+        // equal subset sum
+        if (totalSum % 2 != 0) {
+            return false;
+        }
+        int n = nums.length;
+        int subsetSum = totalSum / 2;
+        boolean[][] dp = new boolean[2][subsetSum+1];
+        // for sum 0 set dp[i][0] = true
+        for (int i=0; i<2; i++) {
+            dp[i][0] = true;
+        }
+        for (int i=n-1; i>=0; i--) {
+            for (int j=0; j<subsetSum+1; j++) {
+                if (nums[i] <= j) {
+                    dp[i & 1][j] = dp[(i+1) & 1][j - nums[i]] || dp[(i+1) & 1][j];
+                } else {
+                    dp[i & 1][j] = dp[(i+1) & 1][j];
+                }
+            }
+        }
+        return dp[0][subsetSum];
+    }
+
+    public boolean canPartition6(int[] nums) {
+        int totalSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            totalSum += nums[i];
+        }
+        // if the totalSum is not divisible by 2 then return false as it cannot form
+        // equal subset sum
+        if (totalSum % 2 != 0) {
+            return false;
+        }
+        int n = nums.length;
+        int subsetSum = totalSum / 2;
+        boolean[] dp = new boolean[subsetSum + 1];
+        dp[0] = true;
+        for (int i = 0; i < n; i++) {
+            for (int j = subsetSum; j >= 0; j--) {
+                if (nums[i] <= j) {
+                    dp[j] |= dp[j - nums[i]];
+                }
+            }
+        }
+        return dp[subsetSum];
+    }
 }

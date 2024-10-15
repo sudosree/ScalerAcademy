@@ -49,4 +49,24 @@ public class LongestRepeatingCharacterReplacement {
         }
         return maxLen;
     }
+
+    public int characterReplacement2(String s, int k) {
+        int n = s.length();
+        int maxLength = 0, maxFreq = 0;
+        int[] freq = new int[26];
+        int left = 0;
+        for (int right=0; right<n; right++) {
+            char c = s.charAt(right);
+            freq[c - 'A']++;
+            maxFreq = Math.max(maxFreq, freq[c - 'A']);
+            // if the window is invalid then shrink it
+            if (right-left+1-maxFreq > k) {
+                freq[s.charAt(left) - 'A']--;
+                left++;
+            }
+            // window is valid at this point
+            maxLength = right-left+1;
+        }
+        return maxLength;
+    }
 }
