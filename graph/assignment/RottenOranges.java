@@ -123,6 +123,58 @@ public class RottenOranges {
         return i >= 0 && i < m && j >= 0 && j < n;
     }
 
+    private static int[][] dirs = new int[][] {
+        {-1,0}, {0,-1}, {0,1}, {1,0}
+    };
+
+    public int orangesRotting1(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int freshOranges = 0;
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                // add all the rotten oranges to the queue
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j});
+                }
+                // count the no. of fresh oranges
+                else if (grid[i][j] == 1) {
+                    freshOranges++;
+                }
+            }
+        }
+
+        // if the count of fresh oranges are 0 then return 0
+        if (freshOranges == 0) {
+            return 0;
+        }
+
+        int time = 0;
+        while (!queue.isEmpty()) {
+            time++;
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+                int[] pair = queue.poll();
+                int r = pair[0];
+                int c = pair[1];
+                for (int[] d : dirs) {
+                    int nr = d[0] + r;
+                    int nc = d[1] + c;
+                    if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] == 1) {
+                        grid[nr][nc] = 2;
+                        queue.offer(new int[]{nr, nc});
+                        freshOranges--;
+                    }
+                }
+            }
+        }
+
+        // if all the fresh oranges are converted to rotten oranges then return the time taken else return -1
+        return freshOranges == 0 ? time - 1 : -1;
+    }
+
     public static void main(String[] args) {
         int[][] A = {
                 {2,1,1},

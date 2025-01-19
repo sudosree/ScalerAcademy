@@ -78,10 +78,36 @@ public class AddBinaryStrings
         return str.reverse().toString();
     }
 
+    public static String addBinary1(String a, String b) {
+        StringBuilder ans = new StringBuilder();
+        int m = a.length(), n = b.length();
+        int i = m - 1;
+        int j = n - 1;
+        int carry = 0, sum;
+
+        while (i >= 0 || j >= 0 || carry == 1) {
+            sum = 0;
+            if (i >= 0) {
+                sum += a.charAt(i) - '0';
+                i--;
+            }
+            if (j >= 0) {
+                sum += b.charAt(j) - '0';
+                j--;
+            }
+            sum += carry;
+            // compute the binary digit
+            ans.append(sum % 2);
+            // compute the carry
+            carry = sum / 2;
+        }
+        return ans.reverse().toString();
+    }
+
     public static void main(String[] args)
     {
-        String A = "110";
-        String B = "110001";
-        System.out.println(solve(A, B));
+        String A = "11";
+        String B = "1";
+        System.out.println(addBinary1(A, B));
     }
 }

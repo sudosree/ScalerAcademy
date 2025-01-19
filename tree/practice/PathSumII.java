@@ -1,5 +1,7 @@
 package tree.practice;
 
+import java.util.Stack;
+import javafx.util.Pair;
 import tree.TreeNode;
 
 import java.util.ArrayList;
@@ -46,6 +48,53 @@ public class PathSumII {
         pathSumHelper1(root.right, targetSum, list, ans);
         list.remove(list.size() - 1);
         targetSum += root.val;
+    }
+
+    public List<List<Integer>> pathSum2(TreeNode root, int targetSum) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        Stack<Pair<TreeNode, Integer>> stack = new Stack<>();
+        TreeNode curr = root, prev = null;
+        while (curr != null || !stack.empty()) {
+            while (curr != null) {
+                stack.push(new Pair(curr, targetSum - curr.val));
+                path.add(curr.val);
+                targetSum -= curr.val;
+                curr = curr.left;
+            }
+            Pair<TreeNode, Integer> pair = stack.peek();
+            TreeNode node = pair.getKey();
+            int remainingSum = pair.getValue();
+            // check if it's a leaf node and the remaining sum is 0 then add the current path
+            // to the final list path
+            if (node.left == null && node.right == null) {
+                prev = node;
+                stack.pop();
+                if (remainingSum == 0) {
+                    res.add(new ArrayList<>(path));
+                }
+                // remove the leaf node from the current path
+                path.remove(path.size() - 1);
+            }
+            // if the node is not a leaf node
+            else {
+                // the right node of is not already visited
+                if (node.right != null && node.right != prev) {
+                    curr = node.right;
+                    targetSum = remainingSum;
+                }
+                // the right node is already visited so pop the current node
+                else {
+                    prev = node;
+                    stack.pop();
+                    path.remove(path.size() - 1);
+                }
+            }
+        }
+        return res;
     }
 
     public static void main(String[] args) {

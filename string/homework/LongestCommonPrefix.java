@@ -59,6 +59,49 @@ public class LongestCommonPrefix
         return ans.toString();
     }
 
+    public String longestCommonPrefix(String[] strs) {
+        int n = strs.length;
+        if (n == 0) {
+            return "";
+        }
+        // initially longest common prefix is the first word in the array
+        String prefix = strs[0];
+        for (int i=1; i<n; i++) {
+            String word = strs[i];
+            // check if the word starts with the longest common prefix seen so far
+            // if it is not then remove the last letter from the prefix
+            while (word.indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length()-1);
+                // if we removed every letter then there is no common prefix
+                if (prefix.isEmpty()) {
+                    return "";
+                }
+            }
+        }
+        return prefix;
+    }
+
+    public String longestCommonPrefix1(String[] strs) {
+        int n = strs.length;
+        if (n == 0) {
+            return "";
+        }
+        // initially longest common prefix is the first word in the array
+        String prefix = strs[0];
+        for (int i=0; i<prefix.length(); i++) {
+            char c = prefix.charAt(i);
+            for (int j=1; j<n; j++) {
+                String word = strs[j];
+                // check if the character at index i matches with the character at index i in
+                // other strings or if the word starts with the prefix
+                if (i == word.length() || c != word.charAt(i)) {
+                    return prefix.substring(0, i);
+                }
+            }
+        }
+        return prefix;
+    }
+
     public static void main(String[] args)
     {
         String[] A = {"abedefgh", "abefghijk", "abcefgh", "abedrgrg"};

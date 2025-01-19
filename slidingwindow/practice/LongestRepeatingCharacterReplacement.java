@@ -102,4 +102,31 @@ public class LongestRepeatingCharacterReplacement {
     return maxLength;
   }
 
+  public int characterReplacement3(String s, int k) {
+    int maxLength = 0;
+    int n = s.length();
+    for (int i=0; i<n; i++) {
+      for (int j=i+1; j<n+1; j++) {
+        String substr = s.substring(i, j);
+        if (checkValidSubstring(substr, k)) {
+          int len = j - i;
+          maxLength = Math.max(maxLength, len);
+        }
+      }
+    }
+    return maxLength;
+  }
+
+  private boolean checkValidSubstring(String str, int k) {
+    int maxFreq = 0;
+    int n = str.length();
+    int[] freq = new int[26];
+    for (int i=0; i<n; i++) {
+      char c = str.charAt(i);
+      freq[c - 'A']++;
+      maxFreq = Math.max(maxFreq, freq[c - 'A']);
+    }
+    return n - maxFreq <= k;
+  }
+
 }

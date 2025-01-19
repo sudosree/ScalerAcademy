@@ -97,12 +97,11 @@ public class TopKFrequentElements {
             freq.get(count).add(key);
         }
         List<Integer> ans = new ArrayList<>();
-        while (k > 0) {
+        while (ans.size() < k) {
             Map.Entry<Integer, List<Integer>> entry = freq.pollFirstEntry();
             if (entry != null) {
                 ans.addAll(entry.getValue());
             }
-            k--;
         }
         return ans.stream().mapToInt(i->i).toArray();
     }
@@ -110,8 +109,8 @@ public class TopKFrequentElements {
     public static void main(String[] args) {
 //        int[] nums = {2,2,2,3,3,4,1,1,1,1};
 //        int k = 3;
-        int[] nums = {1,2};
-        int k = 2;
+        int[] nums = {2,2,2,2,3,3,3,4,4,4,5,5,6,6,7,8};
+        int k = 4;
         System.out.println(Arrays.toString(topKFrequent(nums, k)));
         System.out.println(Arrays.toString(topKFrequent1(nums, k)));
         System.out.println(Arrays.toString(topKFrequent2(nums, k)));

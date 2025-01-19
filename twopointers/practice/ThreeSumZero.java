@@ -107,8 +107,50 @@ public class ThreeSumZero {
         return ans;
     }
 
+    public static List<List<Integer>> threeSum3(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i=0; i<nums.length; i++) {
+            if (nums[i] > 0) {
+                break;
+            }
+            if (i == 0 || nums[i] != nums[i-1]) {
+                twoSum(i, nums, ans);
+            }
+        }
+        return ans;
+    }
+
+    private static void twoSum(int i, int[] nums, List<List<Integer>> ans) {
+        int left = i + 1, right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+            if (sum < 0) {
+                left++;
+            } else if (sum > 0) {
+                right--;
+            } else {
+                ans.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                int lastLeftOccurrence = nums[left];
+                int lastRightOccurrence = nums[right];
+                left++;
+                right--;
+                // to avoid duplicates
+                while (left < right && nums[left] == lastLeftOccurrence) {
+                    left++;
+                }
+                // to avoid duplicates
+                while (left < right && nums[right] == lastRightOccurrence) {
+                    right--;
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        int[] nums = {-1,0,1,2,-1,-4};
-        System.out.println(threeSum2(nums));
+//        int[] nums = {-1,0,1,2,-1,-4};
+        int[] nums = {1,-1,-1,0};
+//        System.out.println(threeSum2(nums));
+        System.out.println(threeSum3(nums));
     }
 }

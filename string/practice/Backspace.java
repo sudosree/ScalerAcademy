@@ -29,18 +29,19 @@ public class Backspace {
     while (index >= 0) {
       if (str.charAt(index) == '#') {
         backspacecount++;
+        index--;
       } else if (backspacecount > 0) {
         backspacecount--;
+        index--;
       } else {
         break;
       }
-      index--;
     }
     return index;
   }
 
   public static void main(String[] args) {
-    String str1 = "xy#z", str2 = "xzz#";
+    String str1 = "ab#c", str2 = "ad#c";
     System.out.println(compare(str1, str2));
   }
 

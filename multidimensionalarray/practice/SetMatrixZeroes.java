@@ -34,7 +34,7 @@ public class SetMatrixZeroes {
 
         for (int i=0;i<n;i++) {
 
-            // as first cell fro first row and first column are same
+            // as first cell for first row and first column are same
             // use an additional variable for the first column
             if (matrix[i][0] == 0) {
                 colFirst = true;

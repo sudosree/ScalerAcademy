@@ -1,5 +1,7 @@
 package linkedlist.practice;
 
+import linkedlist.practice.RotateListByKPlaces.ListNode;
+
 public class RotateListByKPlacesRight {
 
     static class ListNode {
@@ -12,7 +14,7 @@ public class RotateListByKPlacesRight {
         }
     }
 
-    public ListNode rotateRight(ListNode head, int k) {
+    public static ListNode rotateRight(ListNode head, int k) {
         if (head == null) {
             return null;
         }
@@ -34,7 +36,24 @@ public class RotateListByKPlacesRight {
         }
         newHead = newTail.next;
         newTail.next = null;
-        head = newHead;
-        return head;
+        return newHead;
+    }
+
+    private static void print(ListNode head) {
+        ListNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.val + " ");
+            temp = temp.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        ListNode listNode = new ListNode(1);
+        listNode.next = new ListNode(2);
+        listNode.next.next = new ListNode(3);
+        listNode.next.next.next = new ListNode(4);
+        listNode.next.next.next.next = new ListNode(5);
+        ListNode head = rotateRight(listNode, 2);
+        print(head);
     }
 }

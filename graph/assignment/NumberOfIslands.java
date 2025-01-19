@@ -41,6 +41,37 @@ public class NumberOfIslands {
         return i >= 0 && i < n;
     }
 
+    private static int[][] dirs = new int[][]{
+        {-1, 0}, {0, -1}, {0, 1}, {1, 0}
+    };
+
+    public int numIslands(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int count = 0;
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    dfs(i, j, m, n, grid);
+                }
+            }
+        }
+        return count;
+    }
+
+    private void dfs(int r, int c, int m, int n, char[][] grid) {
+        // mark the cell as visited
+        grid[r][c] = '0';
+        for (int[] d : dirs) {
+            int nr = r + d[0];
+            int nc = c + d[1];
+            if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] == '1') {
+                dfs(nr, nc, m, n, grid);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int[][] A = {
                 {0, 0, 1, 0, 1, 0, 1, 1, 1},

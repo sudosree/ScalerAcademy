@@ -52,4 +52,22 @@ public class FindDuplicate {
         }
         return -1;
     }
+
+    public int findDuplicate3(int[] nums) {
+        if (nums.length == 1) {
+            return -1;
+        }
+        int tortoise = nums[0];
+        int hare = nums[nums[0]];
+        while (hare != tortoise) {
+            tortoise = nums[tortoise];
+            hare = nums[nums[hare]];
+        }
+        hare = 0;
+        while (hare != tortoise) {
+            tortoise = nums[tortoise];
+            hare = nums[hare];
+        }
+        return hare;
+    }
 }

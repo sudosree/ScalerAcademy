@@ -85,13 +85,13 @@ public class TopKFrequentWords {
         return ans;
     }
 
-    public List<String> topKFrequent4(String[] words, int k) {
+    public static List<String> topKFrequent4(String[] words, int k) {
         Map<String, Integer> freq = new HashMap<>();
         for (String word : words) {
             freq.put(word, freq.getOrDefault(word, 0) + 1);
         }
         Queue<String> minHeap = new PriorityQueue<>(
-            (word1, word2) -> freq.get(word1).equals(freq.get(word2)) ? word2.compareTo(word1) :
+            (word1, word2) -> freq.get(word1).equals(freq.get(word2)) ? word1.compareTo(word2) :
                 freq.get(word1) - freq.get(word2)
         );
         for (String word : freq.keySet()) {
@@ -104,7 +104,7 @@ public class TopKFrequentWords {
         while (!minHeap.isEmpty()) {
             ans.add(minHeap.poll());
         }
-        Collections.reverse(ans);
+//        Collections.reverse(ans);
         return ans;
     }
 
@@ -116,5 +116,11 @@ public class TopKFrequentWords {
             }
             return freq.get(a) < freq.get(b) ? -1 : 1;
         }
+    }
+
+    public static void main(String[] args) {
+        String[] words = {"i","love","leetcode","i","love","coding"};
+        int k = 2;
+        System.out.println(topKFrequent4(words, k));
     }
 }
